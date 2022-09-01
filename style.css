@@ -1,0 +1,49 @@
+canvas{
+    border: solid;
+}
+
+.display{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+form{
+    border: solid;
+    width: 30%;
+}
+
+
+h1{
+    text-align: center;
+}
+
+
+input{
+    margin: 1.5%;
+}
+
+.check{
+    margin-top:30px; 
+    text-align: start;
+    padding-right: 27%;
+}
+
+button{
+    padding: 2%;
+    border: solid 1px;
+}
+
+button:hover{
+    opacity: 0.8;
+    transition: 0.2s;
+}
+
+button:first-child{
+    background-color: rgb(196, 195, 195);
+}
+
+#save{
+    background-color: rgb(156, 197, 252);
+}

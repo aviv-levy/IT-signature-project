@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+
+    <title>IT</title>
+</head>
+
+<body dir="rtl">
+    <a href="myworkers.html">כלל העובדים</a>
+    <h1>החתמות IT</h1>
+
+    <div class="display">
+
+        <form action="">
+            <input type="text" id="worker" placeholder="שם העובד">
+            <input type="text" id="idworker" placeholder="מספר עובד">
+            <div>
+                <select name="department" id="department">
+                    <option>בחר מחלקה</option>
+                    <option value="מחשוב">מחשוב</option>
+                    <option value="מתכנת">מתכנת</option>
+                    <option value="QA">QA</option>
+                    <option value="הנהלת חשבונות">הנהלת חשבונות</option>
+                    <option value="טכנאים">טכנאים</option>
+                    <option value="קופות">קופות</option>
+                    <option value="ERP">ERP</option>
+                    <option value="מנהל פרוייקטים">מנהל פרוייקטים</option>
+                    <option value="מכירות">מכירות</option>
+                    <option value="מסופונים">מסופונים</option>
+                </select>
+                <input type="date" id="date">
+            </div>
+            <div class="check">
+                <input type="checkbox" class="items" value="1">אוזניות אלחוטיות
+                <br>
+                <input type="checkbox" class="items" value="2">אוזניות חוטיות
+                <br>
+                <input type="checkbox" class="items" value="10">מצלמה
+                <br>
+                <input type="checkbox" class="items" value="3">מחשב נייד מסוג
+                <input type="text" id="computer" name="">
+                <br>
+                <input type="checkbox" class="items" value="4">טלפון סלולרי מסוג
+                <input type="text" id="phone" name="">
+                <br>
+                <input type="checkbox" class="items" value="5">נטסטיק לגלישה סלולרית
+                <br>
+                <input type="checkbox" class="items" value="6">דיסק און קי
+                <br>
+                
+                <input type="checkbox" class="items" value="7">תיק
+                <br>
+                <input type="checkbox" class="items" value="8">מטען
+                <br>
+                <input type="checkbox" class="items" value="9">אחר
+                <input type="text" id="other">
+            </div>
+
+            <h3>חתימת עובד</h3>
+            <div class="flex-row">
+                <div class="wrapper">
+                    <canvas id="signature-pad" width="400" height="200"></canvas>
+                </div>
+                <div class="clear-btn">
+                    <button id="clear"><span> נקה חתימה </span></button>
+                </div>
+            </div>
+            <br><br>
+            <input type="text" id="itworker" placeholder="שם מבצע הפעולה">
+            <br><br>
+            <button id="save" type="button" onclick="saveSignature()">חתום</button>
+        </form>
+
+        <img id="saveSignature" alt="">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
+        integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../app.js"></script>
+</body>
+
+</html>
