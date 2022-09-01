@@ -1,0 +1,31 @@
+table {
+    width: 60%;
+    background-color: #FFFFFF;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: #2B2B2B;
+    border-style: solid;
+    color: #FFFFFF;
+    font-size: 1.5vw;
+  }
+  
+    tbody td, tbody th {
+    border-width: 2px;
+    color: #2B2B2B;
+    border-color: #2B2B2B;
+    border-style: solid;
+    padding: 5px;
+  }
+  
+   thead {
+    background-color: #000000;
+  }
+
+  a{
+    text-decoration: none;
+    color: #2B2B2B;
+  }
+
+  a:hover{
+    text-decoration: underline;
+  }

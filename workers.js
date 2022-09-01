@@ -28,7 +28,7 @@ request.onload = ()=>{
     let workerstable = document.getElementById('workerstable');
     myresult.forEach(worker => {
         workerstable.innerHTML+=` <tr>
-        <td></td> <td>${worker.name}</td> <td>${worker.department}</td> <td>${worker.id}</td>
+        <td></td> <td><a href="workerdetails.html?worker=${worker.id}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
     </tr>`
     });
    //document.getElementById("saveSignature").src = myresult[2].workerscol ; Insert signature
