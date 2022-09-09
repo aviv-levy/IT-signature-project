@@ -33,15 +33,43 @@ const requestListener = function (req, res) {
     });
   }
 
+  else if(clientRequest === '3'){
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM items", function (err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+        res.end(JSON.stringify(result));
+      });
+    });
+  }
+
 
   //Insert a user
   if (clientRequest === '2') {
-    let workerData = JSON.parse(clientRequestInsert);
-    console.log(workerData);
+    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
+    let workerData = JSON.parse(workerDatadecode);
+ 
     con.connect(function (err) {
       if (err) throw err;
       console.log("Connected!");
-      var sql = "INSERT INTO workers (id,name,date,department,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "', '" + workerData.workername + "','" + workerData.date + "','" + workerData.department + "','" + workerData.itworker + "','" + workerData.items + "','"+workerData.computer+"','"+workerData.phone+"','"+workerData.phone+"','"+workerData.dataURL+"')";
+
+      var sql = "SELECT COUNT(id) from workers where id = '"+workerData.idworker+"'";
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        //Check if user exist if exists skip it, if not insert it
+        if(result[0]['COUNT(id)'] < 1 ){
+          var sql = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
+          con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("1 record inserted");
+          });
+    
+        }
+      });
+
+      
+      var sql = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','" + workerData.phone + "','" + workerData.dataURL + "')";
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("1 record inserted");

@@ -50,10 +50,11 @@ function saveSignature(){
 
 //connect to database and insert a user
 function insertUser(myWorker){
+    console.log(JSON.stringify(myWorker));
     request.open('GET', 'http://localhost:8080',);
      
     request.setRequestHeader('1','2');
-     request.setRequestHeader('2',JSON.stringify(myWorker));
+     request.setRequestHeader('2',encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
 
     request.onload = ()=>{
         let myresult = JSON.parse(request.response);

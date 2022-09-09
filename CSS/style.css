@@ -47,3 +47,7 @@ button:first-child{
 #save{
     background-color: rgb(156, 197, 252);
 }
+
+#signature-pad{
+    width: 80%;
+}
