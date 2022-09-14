@@ -29,3 +29,62 @@ table {
   a:hover{
     text-decoration: underline;
   }
+
+  #workerDisplay{
+    display: flex;
+    justify-content: center;
+  }
+  .mycenter{
+    text-align: center;
+  }
+
+  .containsearch{
+    display: flex;
+    justify-content: center;
+  }
+
+/* necessary to give position: relative to parent. */
+input[type="text"]{font: 15px/24px 'Muli', sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;}
+
+:focus{outline: none;}
+
+.mysearch{ width: 50%; position: relative;margin: 2%; display: flex;justify-content: center;} /* necessary to give position: relative to parent. */
+input[type="text"]{font: 15px/24px "Lato", Arial, sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;}
+
+
+#search{border: 1px solid #ccc; padding: 7px 14px 9px; transition: 0.4s;}
+#search ~ .focus-border:before,
+#search ~ .focus-border:after{content: ""; position: absolute; top: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.3s;}
+#search ~ .focus-border:after{top: auto; bottom: 0; left: auto; right: 0;}
+#search ~ .focus-border i:before,
+#search ~ .focus-border i:after{content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 0; background-color: #4caf50; transition: 0.4s;}
+#search ~ .focus-border i:after{left: auto; right: 0; top: auto; bottom: 0;}
+#search:focus ~ .focus-border:before,
+#search:focus ~ .focus-border:after{width: 100%; transition: 0.3s;}
+#search:focus ~ .focus-border i:before,
+#search:focus ~ .focus-border i:after{height: 100%; transition: 0.4s;}
+
+
+
+
+/* 
+.mysearch{
+  padding: 2%;
+  width: 60%;
+  margin: auto;
+}
+  #search {
+    border:0;
+    border-bottom:1px solid #555;  
+    background:transparent;
+    width:100%;
+    padding:8px 0 5px 0;
+    font-size:16px;
+    color:rgb(0, 0, 0);
+}
+
+#search:focus{
+  border:none;	
+  outline:none;
+  border-bottom:1px solid #e74c3c;	
+} */

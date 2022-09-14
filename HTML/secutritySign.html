@@ -84,11 +84,10 @@
                 וכמובן ברכב.
                 <br>
                 &#8226; <strong> יש להיות עירניים לגביי עוברי אורח הנכנסים ויוצאים מהמשרד, במידה ויש חשש לגביי עובר אורח
-                    יש ליידע במיידי את מנהל אבוחת המידע ואת הממונים על פעילות חריגה. </strong>
+                    יש ליידע במיידי את מנהל אבטחת המידע ואת הממונים על פעילות חריגה. </strong>
                 <br>
                 &#8226; <strong> יש לדווח למנהל אבטחת המידע על כל חשש לפגיעה באבטחת המידע, או כל ניסיון להפרת כללי אבטחת
                     המידע כפי שמבוטאים בנהלי החברה. </strong>
-
             </p>
         </div>
         <br>
@@ -98,32 +97,42 @@
             <span>מחלקת מחשוב</span>
         </strong>
         <br><br>
-
-        <span>אני <input type="text" id="name"> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
-        <br>
-        <span>מספר עובד:</span><input type="text" id="idworker">
-        <br>
-        <span>תאריך: <input type="date" id="date"></span>
-        <br>
-    
-        <div id="signp">
-            <span>חתימה:</span>
-            <div class="flex-row">
-                <div class="wrapper">
-                    <canvas id="signature-pad"></canvas>
-                </div>
-                <div class="clear-btn">
-                    <button id="clear"><span> נקה חתימה </span></button>
-                </div>
+        <form id="my-form">
+            <div class="inputcontainer">
+            <span>אני </span><input type="text" id="name" name="name" class="myinput"><span class="focus-border"></span><span> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
             </div>
-    
-        </div>
-    </div>
-<div id="sign">
-    <button id="signbtn" onclick="signclick()">חתימה</button>
-</div>
+            <br>
+            <div class="inputcontainer">
+            <span>מספר עובד:</span><input type="text" id="idworker" name="idworker" class="myinput"><span class="focus-border"></span>
+            </div>
+            <br>
+            <div class="inputcontainer">
+            <span>תאריך: <input type="date" id="date" name="date"  class="myinput"><span class="focus-border"></span></span>
+            </div>
+            <br>
 
-<img id="saveSignature" alt="">
+            <div id="signp">
+                <span>חתימה:</span>
+                <div class="flex-row">
+                    <div class="wrapper">
+                        <canvas id="signature-pad"></canvas>
+                    </div>
+                    <div class="clear-btn">
+                        <button type="button" id="clear"><span> נקה חתימה </span></button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div id="sign">
+        <button id="signbtn" onclick="signclick()">חתימה</button>
+    </div>
+
+    <div class="inputcontainer">
+       <input type="text" id="name" name="name" class="myinput"><span class="focus-border"></span>
+        </div>
+    <img id="saveSignature" alt="">
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"

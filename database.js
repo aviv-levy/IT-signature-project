@@ -12,73 +12,77 @@ const requestListener = async function (req, res) {
   let con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
-    database: "myworkers"
+    password: "Good@Comax1",
+    database: "it-signature"
   });
 
   //Select all from users
-  if (clientRequest === '1'){
-       res.end(await selectQuery("SELECT * FROM workers",con));
+  if (clientRequest === '1') {
+    res.end(await selectQuery("SELECT * FROM workers", con));
   }
-  
-  else if (clientRequest === '3') 
-      await selectQuery("SELECT * FROM items",res,con);
+
+  else if (clientRequest === '3') {
+    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
+    let workerData = JSON.parse(workerDatadecode);
+    res.end(await selectQuery("SELECT date,signature FROM securitysigns where id ="+workerData+"", con));
+  }
 
 
-  //Insert a user
-  if (clientRequest === '2') {
+  //Insert a user to items signs
+  else if (clientRequest === '2') {
     let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
     let workerData = JSON.parse(workerDatadecode);
 
 
-      let statement = "SELECT COUNT(id) from workers where id = '" + workerData.idworker + "'";
-      let userExistResult = JSON.parse(await selectQuery(statement,con));
-        //Check if user exist if exists skip it, if not insert it
-        if (userExistResult[0]['COUNT(id)'] < 1) {
-          var sql = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
-          con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("1 record inserted");
-          });
-        }
-        else
-          console.log('user exist');
+    let statement = "SELECT id from workers where id = '" + workerData.idworker + "'";
+    let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
+    //Check if user exist if exists skip it, if not insert it
+    if (userExistResult[0] === undefined) {
+      let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
+      insertQuery(statement, con);
+    }
+    else
+      console.log('user exist');
 
-
-
-      var sql = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','" + workerData.phone + "','" + workerData.dataURL + "')";
-      con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("1 record inserted");
-      });
-    };
+    statement = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','" + workerData.phone + "','" + workerData.dataURL + "')";
+    insertQuery(statement, con)
   }
 
+  //Insert a user to security signatures if not exist
+  else if (clientRequest === '4') {
+    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
+    let workerData = JSON.parse(workerDatadecode);
 
-function selectQuery(statement,con) {
-  let myresult = new Promise ((resolve)=>con.connect(function (err) {
+    let statement = "SELECT id from securitysigns where id = '" + workerData.id + "'";
+    let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
+    if (userExistResult[0] === undefined) {
+      let statement = "INSERT INTO securitysigns (id,name,date,signature) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.date + "','" + workerData.pic + "') "
+      insertQuery(statement, con);
+    }
+  }
+};
+
+
+function selectQuery(statement, con) {
+  let myresult = new Promise((resolve) => con.connect(function (err) {
     if (err) throw err;
     con.query(statement, function (err, result, fields) {
       if (err) throw err;
       //console.log(result);
-      resolve(JSON.stringify(result)) ;
+      resolve(JSON.stringify(result));
     });
   }));
-  return myresult ;
+  return myresult;
 }
 
-function insertQuery(statement) {
-  con.connect(function (err) {
+function insertQuery(statement, con) {
+  con.query(statement, function (err, result) {
     if (err) throw err;
-    console.log("Connected!");
-
-    con.query(statement, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-    });
+    console.log("1 record inserted");
   });
-}
+};
 
+console.log('Server is listening');
 const server = http.createServer(requestListener);
 server.listen(8080);
 

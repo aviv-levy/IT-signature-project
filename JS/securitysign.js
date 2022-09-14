@@ -29,25 +29,23 @@ function signclick(){
     let dataURL = canvas.toDataURL("image/png");
     document.getElementById("saveSignature").src = dataURL;
 
-    let id = document.getElementById('idworker').value;
-    let name = document.getElementById('name').value;
-    let date = document.getElementById('date').value;
+    let form = document.getElementById('my-form');
+
+    let {name,idworker,date} = form.elements;
+    //date.value.split("-").reverse().join("-")
+    let workerobj = {name:name.value, id:idworker.value,date:date.value,pic:dataURL };
+
+    insertUser(workerobj);
 }
 
 
 
 
 function insertUser(myWorker){
-    console.log(JSON.stringify(myWorker));
-    request.open('GET', 'http://localhost:8080',);
+    request.open('GET', 'http://192.168.50.52:8080',);
      
-    request.setRequestHeader('1','2');
+    request.setRequestHeader('1','4');
      request.setRequestHeader('2',encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
 
-    request.onload = ()=>{
-        let myresult = JSON.parse(request.response);
-        document.getElementById("saveSignature").src = myresult[2].workerscol ;
-        console.log(myresult[2].workerscol);
-    }
     request.send()
 }

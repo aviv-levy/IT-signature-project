@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +8,39 @@
     <link rel="stylesheet" href="../CSS/workersStyle.css">
     <title>Workers</title>
 </head>
+
 <body dir="rtl">
     <a href="index.html">החתמת עובד</a>
 
-    <div id="workerDisplay">
-        
+    <div class="mycenter">
+        <div class="containsearch">
+            <div class="mysearch">
+                <input type="text" id="search" placeholder="חיפוש עובד...">
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div id="workerDisplay">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>שם עובד</td>
+                        <td>מחלקה</td>
+                        <td>מספר עובד</td>
+                    </tr>
+                </thead>
+
+                <tbody id="workerstable">
+
+
+                </tbody>
+
+            </table>
+        </div>
     </div>
     <script src="../JS/workers.js"></script>
 </body>
+
 </html>

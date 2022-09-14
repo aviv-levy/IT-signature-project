@@ -105,3 +105,23 @@ span{
 #signbtn:focus {
   opacity: .75;
 }
+
+
+    .myinput {
+      border:0;
+      border-bottom:1px solid #555;  
+      background:transparent;
+      padding:8px 0 5px 0;
+      font-size:16px;
+      color:rgb(0, 0, 0);
+      text-align: center;
+  }
+  
+  .myinput:focus{
+    border:none;	
+    outline:none;
+    border-bottom:1px solid #4caf50;	
+    transition: 0.4s;
+  }
+  
+

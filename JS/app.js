@@ -25,7 +25,8 @@ document.getElementById("clear").addEventListener('click', function(){
 function saveSignature(){
     let dataURL = canvas.toDataURL("image/png");
     document.getElementById("saveSignature").src = dataURL;
-
+    //data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAACZCAYAAABJ9HMwAAAAAXNSR0IArs4c6QAABWZJREFUeF7t1rERwzAMBEGx/46Z2BVYDi78VY4AC86Nzr338/gIECBA4KfAEUqvgwABAu8CQumFECBA4I+AUHoiBAgQEEpvgAABAk3AH2XzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSbwBaufWV0LM238AAAAAElFTkSuQmCC
+    //if sign empty
     let idworker = document.getElementById('idworker').value;
     let workername = document.getElementById('worker').value;
     let date = document.getElementById('date').value;
@@ -40,9 +41,7 @@ function saveSignature(){
     let arrItems = [];
     if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems)){
         arrItems = JSON.stringify(arrItems);
-        console.log(arrItems);
         let workerobj ={idworker,workername,date,department,itworker,arrItems,computer,phone,other,dataURL};
-        console.log(workerobj);
         insertUser(workerobj);
     }
 
@@ -56,11 +55,11 @@ function insertUser(myWorker){
     request.setRequestHeader('1','2');
      request.setRequestHeader('2',encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
 
-    request.onload = ()=>{
-        let myresult = JSON.parse(request.response);
-        document.getElementById("saveSignature").src = myresult[2].workerscol ;
-        console.log(myresult[2].workerscol);
-    }
+    // request.onload = ()=>{
+    //     let myresult = JSON.parse(request.response);
+    //     document.getElementById("saveSignature").src = myresult[2].workerscol ;
+    //     console.log(myresult[2].workerscol);
+    // }
     request.send()
 }
 
