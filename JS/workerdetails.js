@@ -61,7 +61,8 @@ function requestItemsFromDatabase(idworker) {
                         item = 'מטען';
                         break;
                     case 9:
-                        item = '';
+                        item = itemss.other;
+                        break;
                     case 10:
                         item = 'מצלמה';
                         break;

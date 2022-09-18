@@ -47,7 +47,7 @@ const requestListener = async function (req, res) {
     else
       console.log('user exist');
 
-    statement = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','" + workerData.phone + "','" + workerData.dataURL + "')";
+    statement = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','"+workerData.other+"','" + workerData.dataURL + "')";
     insertQuery(statement, con)
   }
 

@@ -1,5 +1,5 @@
 var canvas = document.getElementById("signature-pad");
-
+var signaturePad;
 const request = new XMLHttpRequest();
 
 //Signature Pad
@@ -12,7 +12,7 @@ function resizeCanvas() {
 window.onresize = resizeCanvas;
 resizeCanvas();
 
-var signaturePad = new SignaturePad(canvas, {
+ signaturePad = new SignaturePad(canvas, {
  backgroundColor: 'rgb(250,250,250)'
 });
 
@@ -24,8 +24,8 @@ document.getElementById("clear").addEventListener('click', function(){
 //Onclick save user and send request to insert in database
 function saveSignature(){
     let dataURL = canvas.toDataURL("image/png");
-    //data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAACZCAYAAABJ9HMwAAAAAXNSR0IArs4c6QAABWZJREFUeF7t1rERwzAMBEGx/46Z2BVYDi78VY4AC86Nzr338/gIECBA4KfAEUqvgwABAu8CQumFECBA4I+AUHoiBAgQEEpvgAABAk3AH2XzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSbwBaufWV0LM238AAAAAElFTkSuQmCC
-    //if sign empty
+
+
     let idworker = document.getElementById('idworker').value;
     let workername = document.getElementById('worker').value;
     let date = document.getElementById('date').value;
@@ -37,7 +37,7 @@ function saveSignature(){
     let other = document.getElementById('other').value;
     
     let arrItems = [];
-    if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems)){
+    if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems,dataURL)){
         arrItems = JSON.stringify(arrItems);
         let workerobj ={idworker,workername,date,department,itworker,arrItems,computer,phone,other,dataURL};
         insertUser(workerobj);
@@ -63,7 +63,7 @@ function insertUser(myWorker){
 
 
 //validate inputs and return true if inputs are corrctly inserted
-function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems){
+function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems,dataURL){
 
     if(idworker.length<3 || idworker.length>4){
         alert('מספר עובד חייב להיות 3 או 4 ספרות');
@@ -127,6 +127,11 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
                     break;
             }
         })
+        
+        if(signaturePad.isEmpty()){
+            alert('נא לחתום על מהסמך');
+            return false;
+        }
 
     return true;
 }
