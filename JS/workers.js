@@ -4,7 +4,7 @@ let myresult;
 //const request = new XMLHttpRequest();
 
 
-fetch('http://192.168.50.52:8080', {
+fetch('http://localhost:8080', {
     method: 'PUT',
     headers: { '1': '1' }
 })

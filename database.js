@@ -12,8 +12,8 @@ const requestListener = async function (req, res) {
   let con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Good@Comax1",
-    database: "it-signature"
+    password: "root",
+    database: "myworkers"
   });
 
   //Select all from users
@@ -24,7 +24,10 @@ const requestListener = async function (req, res) {
   else if (clientRequest === '3') {
     let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
     let workerData = JSON.parse(workerDatadecode);
-    res.end(await selectQuery("SELECT date,signature FROM securitysigns where id ="+workerData+"", con));
+    let security = JSON.parse(await selectQuery("SELECT date,signature FROM securitysigns where id ="+workerData+"", con))
+    let items = JSON.parse(await selectQuery("SELECT * FROM items where idworker ="+workerData+"",con))
+    
+    res.end(JSON.stringify({security:security[0],items:items}));
   }
 
 
@@ -59,19 +62,26 @@ const requestListener = async function (req, res) {
       let statement = "INSERT INTO securitysigns (id,name,date,signature) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.date + "','" + workerData.pic + "') "
       insertQuery(statement, con);
     }
+    
+    let statement2 = "SELECT id from workers where id = '" + workerData.id + "'";
+    let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
+    //Check if user exist if exists skip it, if not insert it
+    if (userExistResult2[0] === undefined) {
+      let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.department + "')";
+      insertQuery(statement, con);
+    }
   }
 };
 
 
 function selectQuery(statement, con) {
-  let myresult = new Promise((resolve) => con.connect(function (err) {
-    if (err) throw err;
+  let myresult = new Promise((resolve) => {
     con.query(statement, function (err, result, fields) {
       if (err) throw err;
       //console.log(result);
       resolve(JSON.stringify(result));
     });
-  }));
+  });
   return myresult;
 }
 

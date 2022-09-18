@@ -24,7 +24,6 @@ document.getElementById("clear").addEventListener('click', function(){
 //Onclick save user and send request to insert in database
 function saveSignature(){
     let dataURL = canvas.toDataURL("image/png");
-    document.getElementById("saveSignature").src = dataURL;
     //data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAACZCAYAAABJ9HMwAAAAAXNSR0IArs4c6QAABWZJREFUeF7t1rERwzAMBEGx/46Z2BVYDi78VY4AC86Nzr338/gIECBA4KfAEUqvgwABAu8CQumFECBA4I+AUHoiBAgQEEpvgAABAk3AH2XzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSYglM3PNAECAwJCOXBkKxIg0ASEsvmZJkBgQEAoB45sRQIEmoBQNj/TBAgMCAjlwJGtSIBAExDK5meaAIEBAaEcOLIVCRBoAkLZ/EwTIDAgIJQDR7YiAQJNQCibn2kCBAYEhHLgyFYkQKAJCGXzM02AwICAUA4c2YoECDQBoWx+pgkQGBAQyoEjW5EAgSbwBaufWV0LM238AAAAAElFTkSuQmCC
     //if sign empty
     let idworker = document.getElementById('idworker').value;
@@ -37,7 +36,6 @@ function saveSignature(){
     let phone = document.getElementById('phone').value;
     let other = document.getElementById('other').value;
     
-    console.log(items[0].value);
     let arrItems = [];
     if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems)){
         arrItems = JSON.stringify(arrItems);
@@ -68,25 +66,31 @@ function insertUser(myWorker){
 function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems){
 
     if(idworker.length<3 || idworker.length>4){
+        alert('מספר עובד חייב להיות 3 או 4 ספרות');
         return false;
     }
     if(worker.length<2){
+        alert('שם עובד לא תקין');
         return false;
     }
     
     if(date === ''){
+        alert('נא להזין תאריך חתימה');
         return false;
     }
         
     if(department ==='בחר מחלקה'){
+        alert('מחלקה לא תקינה');
         return false;
     }
 
     if(itworker.length<2){
+        alert('מחתים לא תקין');
         return false;
     }
 
     if(items[0] === undefined){
+        alert('בחר את הציוד להחתמה');
         return false;
     }
 
@@ -105,16 +109,19 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
             switch(item.value){
                 case '3':
                     if(computer.length<2){
+                        alert('אזור מחשב לא תקין');
                          return false;
                     }
                     break;
                   case '4':
                     if(phone.length<2){
+                        alert('אזור פלאפון לא תקין');
                        return false;
                     }
                     break;
                   case '9':
                     if(other.length<2){
+                        alert('אחר לא תקין');
                          return false;
                     }
                     break;

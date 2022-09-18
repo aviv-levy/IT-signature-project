@@ -1,7 +1,5 @@
 var canvas = document.getElementById("signature-pad");
 
-const request = new XMLHttpRequest();
-
 
 //Signature Pad
 function resizeCanvas() {
@@ -31,9 +29,10 @@ function signclick(){
 
     let form = document.getElementById('my-form');
 
-    let {name,idworker,date} = form.elements;
+    let {name,idworker,department,date} = form.elements;
+    console.log(department.value);
     //date.value.split("-").reverse().join("-")
-    let workerobj = {name:name.value, id:idworker.value,date:date.value,pic:dataURL };
+    let workerobj = {name:name.value, id:idworker.value,department:department.value,date:date.value,pic:dataURL };
 
     insertUser(workerobj);
 }
@@ -42,7 +41,8 @@ function signclick(){
 
 
 function insertUser(myWorker){
-    request.open('GET', 'http://192.168.50.52:8080',);
+    const request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080',);
      
     request.setRequestHeader('1','4');
      request.setRequestHeader('2',encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
