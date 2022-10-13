@@ -3,8 +3,13 @@ var mysql = require('mysql');
 
 const http = require('http');
 
+const express = require('express');
+const app = express();
+const cors = require('cors');
 
-const requestListener = async function (req, res) {
+app.use(cors());
+
+const requestListener =  app.get('/',async function (req, res) {
   res.writeHead(200);
   clientRequest = req.headers['1'];//read key from all
   let clientRequestInsert = req.headers['2'];// read key with a value to insert a user
@@ -71,7 +76,7 @@ const requestListener = async function (req, res) {
       insertQuery(statement, con);
     }
   }
-};
+});
 
 
 function selectQuery(statement, con) {
