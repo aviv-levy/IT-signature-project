@@ -10,6 +10,8 @@ const cors = require('cors');
 app.use(cors());
 
 const requestListener =  app.get('/',async function (req, res) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Headers', "*");
   res.writeHead(200);
   clientRequest = req.headers['1'];//read key from all
   let clientRequestInsert = req.headers['2'];// read key with a value to insert a user
