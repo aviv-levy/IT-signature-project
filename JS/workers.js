@@ -5,7 +5,7 @@ let myresult;
 
 
 fetch('http://localhost:8080', {
-    method: 'PUT',
+    method: 'GET',
     headers: { '1': '1' }
 })
     .then((response) => response.json())
