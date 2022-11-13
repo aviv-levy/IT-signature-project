@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 
-
-const http = require('http');
+const port = 8080;
 
 const express = require('express');
 const app = express();
@@ -9,12 +8,12 @@ const cors = require('cors');
 
 app.use(cors());
 
-const requestListener =  app.get('/',async function (req, res) {
+app.get('/',async function (req, res) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Headers', "*");
   res.writeHead(200);
   clientRequest = req.headers['1'];//read key from all
-  let clientRequestInsert = req.headers['2'];// read key with a value to insert a user
+  let clientRequestObject = req.headers['2'];// read key with a value of object
 
   let con = mysql.createConnection({
     host: "localhost",
@@ -28,9 +27,9 @@ const requestListener =  app.get('/',async function (req, res) {
     res.end(await selectQuery("SELECT * FROM workers", con));
   }
 
+  //Select all signs of user
   else if (clientRequest === '3') {
-    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
-    let workerData = JSON.parse(workerDatadecode);
+    let workerData = JSON.parse(decodeURI(clientRequestObject)); //Decode for UTF-8
     let security = JSON.parse(await selectQuery("SELECT date,signature FROM securitysigns where id ="+workerData+"", con))
     let items = JSON.parse(await selectQuery("SELECT * FROM items where idworker ="+workerData+"",con))
     
@@ -40,9 +39,7 @@ const requestListener =  app.get('/',async function (req, res) {
 
   //Insert a user to items signs
   else if (clientRequest === '2') {
-    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
-    let workerData = JSON.parse(workerDatadecode);
-
+    let workerData = JSON.parse(decodeURI(clientRequestObject)); //Decode for UTF-8
 
     let statement = "SELECT id from workers where id = '" + workerData.idworker + "'";
     let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
@@ -60,8 +57,7 @@ const requestListener =  app.get('/',async function (req, res) {
 
   //Insert a user to security signatures if not exist
   else if (clientRequest === '4') {
-    let workerDatadecode = decodeURI(clientRequestInsert); //Decode for UTF-8
-    let workerData = JSON.parse(workerDatadecode);
+    let workerData = JSON.parse(decodeURI(clientRequestObject));//Decode for UTF-8
 
     let statement = "SELECT id from securitysigns where id = '" + workerData.id + "'";
     let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
@@ -78,6 +74,16 @@ const requestListener =  app.get('/',async function (req, res) {
       insertQuery(statement, con);
     }
   }
+
+    if(clientRequest === '5'){
+      let workerDatadecode = JSON.parse(decodeURI(clientRequestObject));
+      let statement = "DELETE FROM workers where";
+      workerDatadecode.forEach((userid,index) => {
+        index !== workerDatadecode.length-1 ? statement+=` id = ${userid} ||` : statement+=` id = ${userid}`
+      });
+      console.log(statement);
+      await deleteQuery(statement, con);
+    }
 });
 
 
@@ -99,7 +105,16 @@ function insertQuery(statement, con) {
   });
 };
 
-console.log('Server is listening');
-const server = http.createServer(requestListener);
-server.listen(8080);
+function deleteQuery(statement, con) {
+  con.query(statement, function (err, result) {
+    if (err) throw err;
+    console.log("Users deleted");
+  });
+};
+
+
+app.listen(port,()=>{
+  console.log('Server is listening');
+})
+
 

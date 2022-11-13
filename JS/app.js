@@ -13,7 +13,7 @@ window.onresize = resizeCanvas;
 resizeCanvas();
 
  signaturePad = new SignaturePad(canvas, {
- backgroundColor: 'rgb(250,250,250)'
+ backgroundColor: 'rgba(0, 0, 0, 0.18)'
 });
 
 //Onclick clear signature pad
