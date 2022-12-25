@@ -25,7 +25,6 @@ document.getElementById("clear").addEventListener('click', function(){
 function saveSignature(){
     let dataURL = canvas.toDataURL("image/png");
 
-
     let idworker = document.getElementById('idworker').value;
     let workername = document.getElementById('worker').value;
     let date = document.getElementById('date').value;
@@ -59,6 +58,7 @@ function insertUser(myWorker){
     //     console.log(myresult[2].workerscol);
     // }
     request.send()
+    location.reload()
 }
 
 

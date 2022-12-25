@@ -8,7 +8,7 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.get('/',async function (req, res) {
+app.get('/', async function (req, res) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Headers', "*");
   res.writeHead(200);
@@ -30,16 +30,18 @@ app.get('/',async function (req, res) {
   //Select all signs of user
   else if (clientRequest === '3') {
     let workerData = JSON.parse(decodeURI(clientRequestObject)); //Decode for UTF-8
-    let security = JSON.parse(await selectQuery("SELECT date,signature FROM securitysigns where id ="+workerData+"", con))
-    let items = JSON.parse(await selectQuery("SELECT * FROM items where idworker ="+workerData+"",con))
-    
-    res.end(JSON.stringify({security:security[0],items:items}));
+    let security = JSON.parse(await selectQuery("SELECT date,signature FROM securitysigns where id =" + workerData + "", con))
+    let items = JSON.parse(await selectQuery("SELECT * FROM items where idworker =" + workerData + "", con))
+
+    res.end(JSON.stringify({ security: security[0], items: items }));
   }
 
 
   //Insert a user to items signs
   else if (clientRequest === '2') {
     let workerData = JSON.parse(decodeURI(clientRequestObject)); //Decode for UTF-8
+
+    console.log(workerData);
 
     let statement = "SELECT id from workers where id = '" + workerData.idworker + "'";
     let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
@@ -51,8 +53,22 @@ app.get('/',async function (req, res) {
     else
       console.log('user exist');
 
-    statement = "INSERT INTO items (idworker,date,itworker,items,computer,phone,other,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + workerData.arrItems + "','" + workerData.computer + "','" + workerData.phone + "','"+workerData.other+"','" + workerData.dataURL + "')";
-    insertQuery(statement, con)
+    JSON.parse(workerData.arrItems).forEach((item) => {
+      let describedItem = "";
+      switch (parseInt(item)) {
+        case 3:
+          describedItem = workerData.computer;
+          break;
+        case 4:
+          describedItem = workerData.phone;
+          break;
+        case 9:
+          describedItem = workerData.other;
+          break;
+      }
+      statement = "INSERT INTO items (idworker,date,itworker,items,describedItem,sign) VALUES ('" + workerData.idworker + "','" + workerData.date + "','" + workerData.itworker + "','" + item + "','" + describedItem + "','" + workerData.dataURL + "')";
+      insertQuery(statement, con)
+    })
   }
 
   //Insert a user to security signatures if not exist
@@ -65,7 +81,7 @@ app.get('/',async function (req, res) {
       let statement = "INSERT INTO securitysigns (id,name,date,signature) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.date + "','" + workerData.pic + "') "
       insertQuery(statement, con);
     }
-    
+
     let statement2 = "SELECT id from workers where id = '" + workerData.id + "'";
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
     //Check if user exist if exists skip it, if not insert it
@@ -75,16 +91,33 @@ app.get('/',async function (req, res) {
     }
   }
 
-    if(clientRequest === '5'){
-      let workerDatadecode = JSON.parse(decodeURI(clientRequestObject));
-      let statement = "DELETE FROM workers where";
-      workerDatadecode.forEach((userid,index) => {
-        index !== workerDatadecode.length-1 ? statement+=` id = ${userid} ||` : statement+=` id = ${userid}`
+  if (clientRequest === '5') {
+    let workerData = JSON.parse(decodeURI(clientRequestObject));
+    let statement = "DELETE workers,items from workers INNER JOIN items ON workers.id = items.idworker WHERE";
+    let statement2 = "DELETE from workers WHERE";
+    workerData.forEach((userid, index) => {
+      index !== workerData.length - 1 ? statement += ` workers.id = ${userid} ||` : statement += ` workers.id = ${userid}`;
+      index !== workerData - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
+    });
+    console.log(statement);
+    await deleteQuery(statement, con,"Users deleted", statement2);
+  }
+
+  else if (clientRequest === '6') {
+    let workerData = JSON.parse(decodeURI(clientRequestObject));
+    console.log(typeof (workerData), workerData)
+    let statement = "DELETE from items WHERE";
+    if (typeof (workerData) === 'string')
+      statement += ` id = ${workerData}`
+    else {
+      workerData.forEach((itemid, index) => {
+        index !== workerData.length - 1 ? statement += ` id = ${itemid} ||` : statement += ` id = ${itemid}`
       });
-      console.log(statement);
-      await deleteQuery(statement, con);
     }
+    await deleteQuery(statement, con,"items deleted");
+  }
 });
+
 
 
 function selectQuery(statement, con) {
@@ -105,15 +138,22 @@ function insertQuery(statement, con) {
   });
 };
 
-function deleteQuery(statement, con) {
+function deleteQuery(statement, con,comment, statement2 = 0) {
+  con.connect();
   con.query(statement, function (err, result) {
     if (err) throw err;
-    console.log("Users deleted");
+    console.log(comment);
   });
+  if (statement2 !== 0)
+    con.query(statement2, function (err, result) {
+      if (err) throw err;
+      console.log(comment);
+    });
+  con.end();
 };
 
 
-app.listen(port,()=>{
+app.listen(port, () => {
   console.log('Server is listening');
 })
 

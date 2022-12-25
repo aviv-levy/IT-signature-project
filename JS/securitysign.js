@@ -25,7 +25,6 @@ document.getElementById("clear").addEventListener('click', function(){
 
 function signclick(){
     let dataURL = canvas.toDataURL("image/png");
-    document.getElementById("saveSignature").src = dataURL;
 
     let form = document.getElementById('my-form');
 
