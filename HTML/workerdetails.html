@@ -28,12 +28,13 @@
 
     </div>
 
-    
+
     <div class="deletebtn">
-       <button id="add-items" onclick="addItems()" class="custom-btn btn-add"><span>הוסף פריטים</span></button>
-        <button id="delte-items" onclick="deleteItems()" class="custom-btn btn-6"><span>מחק פריטים מסומנים</span></button>
+        <button id="add-items" class="custom-btn btn-add"><span>הוסף פריטים</span></button>
+        <button id="delte-items" onclick="deleteItems()" class="custom-btn btn-6"><span>מחק פריטים
+                מסומנים</span></button>
     </div>
-    
+
     <ul class="colorlib-bubbles">
         <li></li>
         <li></li>
@@ -47,61 +48,64 @@
         <li></li>
     </ul>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="display2">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="display2">
 
-        <form action="">
+                <form action="">
 
-            <input type="text" id="itworker" placeholder="שם מבצע הפעולה">
-            <div class="check">
-                <input type="checkbox" class="items" value="1">אוזניות אלחוטיות
-                <br>
-                <input type="checkbox" class="items" value="2">אוזניות חוטיות
-                <br>
-                <input type="checkbox" class="items" value="10">מצלמה
-                <br>
-                <input type="checkbox" class="items" value="3">מחשב נייד מסוג
-                <input type="text" id="computer" name="">
-                <br>
-                <input type="checkbox" class="items" value="4">טלפון סלולרי מסוג
-                <input type="text" id="phone" name="">
-                <br>
-                <input type="checkbox" class="items" value="5">נטסטיק לגלישה סלולרית
-                <br>
-                <input type="checkbox" class="items" value="6">דיסק און קי
-                <br>
-                
-                <input type="checkbox" class="items" value="7">תיק
-                <br>
-                <input type="checkbox" class="items" value="8">מטען
-                <br>
-                <input type="checkbox" class="items" value="9">אחר
-                <input type="text" id="other">
+                    <input type="date" id="date" onfocus="this.showPicker()">
+                    <input type="text" id="itworker" placeholder="שם מבצע הפעולה">
+                    <div class="check">
+                        <input type="checkbox" class="items" value="1">אוזניות אלחוטיות
+                        <br>
+                        <input type="checkbox" class="items" value="2">אוזניות חוטיות
+                        <br>
+                        <input type="checkbox" class="items" value="10">מצלמה
+                        <br>
+                        <input type="checkbox" class="items" value="3">מחשב נייד מסוג
+                        <input type="text" id="computer" name="">
+                        <br>
+                        <input type="checkbox" class="items" value="4">טלפון סלולרי מסוג
+                        <input type="text" id="phone" name="">
+                        <br>
+                        <input type="checkbox" class="items" value="5">נטסטיק לגלישה סלולרית
+                        <br>
+                        <input type="checkbox" class="items" value="6">דיסק און קי
+                        <br>
+
+                        <input type="checkbox" class="items" value="7">תיק
+                        <br>
+                        <input type="checkbox" class="items" value="8">מטען
+                        <br>
+                        <input type="checkbox" class="items" value="9">אחר
+                        <input type="text" id="other">
+                    </div>
+
+                    <h3>חתימת עובד</h3>
+                    <div class="flex-row">
+                        <div class="wrapper">
+                            <canvas id="signature-pad"></canvas>
+                        </div>
+                        <div class="clear-btn">
+                            <button class="btn-modal" type="button" id="clear"><span> נקה חתימה </span></button>
+                            <button class="btn-modal" id="save" type="button" onclick="saveSignature()">חתימה</button>
+                        </div>
+                    </div>
+                </form>
+
+                <img id="saveSignature" alt="">
             </div>
+        </div>
 
-            <h3>חתימת עובד</h3>
-            <div class="flex-row">
-                <div class="wrapper">
-                    <canvas id="signature-pad"></canvas>
-                </div>
-                <div class="clear-btn">
-                    <button class="btn" type="button" id="clear"><span> נקה חתימה </span></button>
-                    <button class="btn" id="save" type="button" onclick="saveSignature()">חתימה</button>
-                </div>
-            </div>
-        </form>
-
-        <img id="saveSignature" alt="">
     </div>
-  </div>
 
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
+    <!--End of Modal-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
         integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../JS/navbar.js"></script>

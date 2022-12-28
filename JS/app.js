@@ -36,9 +36,9 @@ function saveSignature(){
     let other = document.getElementById('other').value;
     
     let arrItems = [];
-    if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems,dataURL)){
+    if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems)){
         arrItems = JSON.stringify(arrItems);
-        let workerobj ={idworker,workername,date,department,itworker,arrItems,computer,phone,other,dataURL};
+        let workerobj ={idworker,workername,date,department,itworker,arrItems,computer,phone,other,dataURL,onlyitems:false};
         insertUser(workerobj);
     }
 
@@ -52,18 +52,13 @@ function insertUser(myWorker){
     request.setRequestHeader('1','2');
      request.setRequestHeader('2',encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
 
-    // request.onload = ()=>{
-    //     let myresult = JSON.parse(request.response);
-    //     document.getElementById("saveSignature").src = myresult[2].workerscol ;
-    //     console.log(myresult[2].workerscol);
-    // }
     request.send()
     location.reload()
 }
 
 
 //validate inputs and return true if inputs are corrctly inserted
-function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems,dataURL){
+function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems){
 
     if(idworker.length<3 || idworker.length>4){
         alert('מספר עובד חייב להיות 3 או 4 ספרות');

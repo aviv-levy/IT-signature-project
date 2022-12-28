@@ -14,7 +14,7 @@ fetch('http://localhost:8080', {
         console.log('Success:', result);
         result.forEach(worker => {
             workerstable.innerHTML += ` <tr>
-        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
+        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
     </tr>`
         });
     })
@@ -34,7 +34,7 @@ search.addEventListener("input", () => {
     workerstable.innerHTML = ``;
     myfilteredworkers.forEach((worker) => {
         workerstable.innerHTML += ` <tr>
-        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
+        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
     </tr>`;
     })
 })

@@ -43,15 +43,17 @@ app.get('/', async function (req, res) {
 
     console.log(workerData);
 
-    let statement = "SELECT id from workers where id = '" + workerData.idworker + "'";
-    let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
-    //Check if user exist if exists skip it, if not insert it
-    if (userExistResult[0] === undefined) {
-      let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
-      insertQuery(statement, con);
+    if (!workerData.onlyitems) {
+      let statement = "SELECT id from workers where id = '" + workerData.idworker + "'";
+      let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
+      //Check if user exist if exists skip it, if not insert it
+      if (userExistResult[0] === undefined) {
+        let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
+        insertQuery(statement, con);
+      }
+      else
+        console.log('user exist');
     }
-    else
-      console.log('user exist');
 
     JSON.parse(workerData.arrItems).forEach((item) => {
       let describedItem = "";
@@ -100,7 +102,7 @@ app.get('/', async function (req, res) {
       index !== workerData - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
     });
     console.log(statement);
-    await deleteQuery(statement, con,"Users deleted", statement2);
+    await deleteQuery(statement, con, "Users deleted", statement2);
   }
 
   else if (clientRequest === '6') {
@@ -114,7 +116,7 @@ app.get('/', async function (req, res) {
         index !== workerData.length - 1 ? statement += ` id = ${itemid} ||` : statement += ` id = ${itemid}`
       });
     }
-    await deleteQuery(statement, con,"items deleted");
+    await deleteQuery(statement, con, "items deleted");
   }
 });
 
@@ -138,7 +140,7 @@ function insertQuery(statement, con) {
   });
 };
 
-function deleteQuery(statement, con,comment, statement2 = 0) {
+function deleteQuery(statement, con, comment, statement2 = 0) {
   con.connect();
   con.query(statement, function (err, result) {
     if (err) throw err;

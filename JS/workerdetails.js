@@ -1,18 +1,26 @@
+//get parmas of worker from url
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const ID = urlParams.get('worker');
+const NAME = urlParams.get('name');
+const DEPARTMENT = urlParams.get('department');
 var canvas = document.getElementById("signature-pad");
 
+
+requestItemsFromDatabase(ID);
 
 //Signature Pad
 function resizeCanvas() {
     var ratio = Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
+    canvas.width = 365;
+    canvas.height = 175;
     canvas.getContext("2d").scale(ratio, ratio);
 }
 window.onresize = resizeCanvas;
 resizeCanvas();
 
-var signaturePad = new SignaturePad(canvas, {
- backgroundColor: 'rgb(250,250,250)'
+ signaturePad = new SignaturePad(canvas, {
+ backgroundColor: 'rgba(0, 0, 0, 0.18)'
 });
 
 //Onclick clear signature pad
@@ -20,16 +28,7 @@ document.getElementById("clear").addEventListener('click', function(){
  signaturePad.clear();
 })
 
-
-//get ID worker from url
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const id = urlParams.get('worker');
-
-
-requestItemsFromDatabase(id);
-
-
+//Get all items from database by worker id and shows it
 function requestItemsFromDatabase(idworker) {
     const request = new XMLHttpRequest();
     let display = document.getElementById('display');
@@ -51,53 +50,53 @@ function requestItemsFromDatabase(idworker) {
 
         if (myresult.items !== undefined && myresult.items.length > 0) {
             let signid = 0;
-            
+
             myresult.items.forEach((itemss) => {
                 console.log(itemss);
-                    let pic = '';
-                    switch (parseInt(itemss.items)) {
-                        case 1:
-                            item = 'אוזניות אלחוטיות';
-                            pic = '../Items-Pictures/jabra.png';
-                            break;
-                        case 2:
-                            item = 'אוזניות חוטיות';
-                            pic = '../Items-Pictures/headphones.png';
-                            break;
-                        case 3:
-                            item = `מחשב נייד מסוג ${itemss.describedItem}`;
-                            pic = '../Items-Pictures/Laptop.png';
-                            break;
-                        case 4:
-                            item = `טלפון מסוג ${itemss.describedItem}`;
-                            pic = '../Items-Pictures/phone.png';
-                            break;
-                        case 5:
-                            item = 'נטסטיק לגלישה סלולרית';
-                            pic = '../Items-Pictures/netstick.png';
-                            break;
-                        case 6:
-                            item = 'דיסק און קי';
-                            pic = '../Items-Pictures/usb.png';
-                            break;
-                        case 7:
-                            item = 'תיק';
-                            pic = '../Items-Pictures/bag.png';
-                            break;
-                        case 8:
-                            item = 'מטען';
-                            pic = '../Items-Pictures/charger.png';
-                            break;
-                        case 9:
-                            item = itemss.describedItem;
-                            break;
-                        case 10:
-                            item = 'מצלמה';
-                            pic = '../Items-Pictures/camera.png';
-                            break;
+                let pic = '';
+                switch (parseInt(itemss.items)) {
+                    case 1:
+                        item = 'אוזניות אלחוטיות';
+                        pic = '../Items-Pictures/jabra.png';
+                        break;
+                    case 2:
+                        item = 'אוזניות חוטיות';
+                        pic = '../Items-Pictures/headphones.png';
+                        break;
+                    case 3:
+                        item = `מחשב נייד מסוג ${itemss.describedItem}`;
+                        pic = '../Items-Pictures/Laptop.png';
+                        break;
+                    case 4:
+                        item = `טלפון מסוג ${itemss.describedItem}`;
+                        pic = '../Items-Pictures/phone.png';
+                        break;
+                    case 5:
+                        item = 'נטסטיק לגלישה סלולרית';
+                        pic = '../Items-Pictures/netstick.png';
+                        break;
+                    case 6:
+                        item = 'דיסק און קי';
+                        pic = '../Items-Pictures/usb.png';
+                        break;
+                    case 7:
+                        item = 'תיק';
+                        pic = '../Items-Pictures/bag.png';
+                        break;
+                    case 8:
+                        item = 'מטען';
+                        pic = '../Items-Pictures/charger.png';
+                        break;
+                    case 9:
+                        item = itemss.describedItem;
+                        break;
+                    case 10:
+                        item = 'מצלמה';
+                        pic = '../Items-Pictures/camera.png';
+                        break;
 
-                    }
-                    display.innerHTML += `<div class="item">
+                }
+                display.innerHTML += `<div class="item">
                 <div class="wrapper">
                 <div class="content">
                 <input type="checkbox" class="items" value="${itemss.id}">
@@ -128,7 +127,7 @@ function requestItemsFromDatabase(idworker) {
 
             //delte item event
             document.querySelectorAll('.deleteBtn').forEach(btn => {
-                btn.addEventListener('click',async()=>{
+                btn.addEventListener('click', async () => {
                     await fetch('http://localhost:8080', {
                         method: 'GET',
                         headers: {
@@ -140,47 +139,42 @@ function requestItemsFromDatabase(idworker) {
             });
 
             //click item to open details
-            document.querySelectorAll('.details').forEach((item,index) =>{
-                item.addEventListener('click',()=>{
-                    if(!document.querySelectorAll('.item-view')[index].classList.contains('show'))
+            document.querySelectorAll('.details').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    if (!document.querySelectorAll('.item-view')[index].classList.contains('show'))
                         document.querySelectorAll('.item-view')[index].classList.add('show')
                     else
-                    document.querySelectorAll('.item-view')[index].classList.remove('show') 
+                        document.querySelectorAll('.item-view')[index].classList.remove('show')
                 })
             })
-            document.querySelectorAll('.item_img').forEach((item,index) =>{
-                item.addEventListener('click',()=>{
-                    if(!document.querySelectorAll('.item-view')[index].classList.contains('show'))
+            document.querySelectorAll('.item_img').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    if (!document.querySelectorAll('.item-view')[index].classList.contains('show'))
                         document.querySelectorAll('.item-view')[index].classList.add('show')
                     else
-                    document.querySelectorAll('.item-view')[index].classList.remove('show') 
+                        document.querySelectorAll('.item-view')[index].classList.remove('show')
                 })
             })
 
         }
-        else{
-            display.innerHTML = `<h2>העובד לא חתום על ציוד</h2>
-                                <button onclick="addItems()">הוסף ציוד</button>`
-            
+        else {
+            display.innerHTML = `<h2>העובד לא חתום על ציוד</h2>`
+
             document.getElementById('delte-items').style.display = 'none';
         }
     }
     request.send()
 }
 
-//redirect to index.html
-let addItems = () => {
-    
-}
 
 //delete all checked items function
-let deleteItems = async () =>{
+let deleteItems = async () => {
     let deleteItems = []
     let selectedItems = document.querySelectorAll('.items:checked');
     console.log(selectedItems);
     if (selectedItems.length !== 0) {
-      
-        selectedItems.forEach(item =>{
+
+        selectedItems.forEach(item => {
             deleteItems.push(item.value);
         })
         await fetch('http://localhost:8080', {
@@ -191,4 +185,100 @@ let deleteItems = async () =>{
             }
         }).then(location.reload())
     }
+}
+
+
+
+//Onclick save user and send request to insert in database
+function saveSignature(){
+    let dataURL = canvas.toDataURL("image/png");
+
+    let date = document.getElementById('date').value;
+    let itworker = document.getElementById('itworker').value;
+    let items  = document.querySelectorAll('.items:checked');
+    let computer = document.getElementById('computer').value;
+    let phone = document.getElementById('phone').value;
+    let other = document.getElementById('other').value;
+    
+    let arrItems = [];
+    if(validation(date,itworker,items,computer,phone,other,arrItems)){
+        arrItems = JSON.stringify(arrItems);
+        let workerobj ={idworker:ID,workername:NAME,date,department:DEPARTMENT,itworker,arrItems,computer,phone,other,dataURL,onlyitems:true};
+        insertUser(workerobj);
+    }
+
+}
+
+//connect to database and insert a user
+function insertUser(myWorker){
+    console.log(JSON.stringify(myWorker));
+
+    fetch('http://localhost:8080', {
+            method: 'GET',
+            headers: {
+                '1': '2',
+                '2': encodeURI(JSON.stringify(myWorker))
+            }
+        }).then(location.reload())
+}
+
+
+//validate inputs and return true if inputs are corrctly inserted
+function validation(date,itworker,items,computer,phone,other,arrItems){
+    
+    if(date === ''){
+        alert('נא להזין תאריך חתימה');
+        return false;
+    }    
+
+    if(itworker.length<2){
+        alert('מחתים לא תקין');
+        return false;
+    }
+
+    if(items[0] === undefined){
+        alert('בחר את הציוד להחתמה');
+        return false;
+    }
+
+    if(computer.value === '')
+        computer.value = null;
+
+    if(phone.value === '')
+        phone.value = null;
+
+    if(other.value === '')
+        other.value = null;
+    
+
+        items.forEach((item)=>{
+            arrItems.push(item.value);
+            switch(item.value){
+                case '3':
+                    if(computer.length<2){
+                        alert('אזור מחשב לא תקין');
+                         return false;
+                    }
+                    break;
+                  case '4':
+                    if(phone.length<2){
+                        alert('אזור פלאפון לא תקין');
+                       return false;
+                    }
+                    break;
+                  case '9':
+                    if(other.length<2){
+                        alert('אחר לא תקין');
+                         return false;
+                    }
+                    break;
+            }
+        })
+        
+        if(signaturePad.isEmpty()){
+            alert('נא לחתום על מהסמך');
+            return false;
+        }
+
+    return true;
 }
