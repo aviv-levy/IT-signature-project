@@ -60,16 +60,16 @@ function insertUser(myWorker){
 //validate inputs and return true if inputs are corrctly inserted
 function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems){
 
-    if(idworker.length<3 || idworker.length>4){
+    if(idworker.length<3 || idworker.length>4 ||(!/^\d+$/.test(idworker))){
         alert('מספר עובד חייב להיות 3 או 4 ספרות');
         return false;
     }
-    if(worker.length<2){
+    if(worker.length<2 || (!/^[א-ת\s]*$/.test(worker))){
         alert('שם עובד לא תקין');
         return false;
     }
     
-    if(date === ''){
+    if(date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))){ 
         alert('נא להזין תאריך חתימה');
         return false;
     }
@@ -79,7 +79,7 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
         return false;
     }
 
-    if(itworker.length<2){
+    if(itworker.length<2 || (!/^[א-ת\s]*$/.test(itworker))){
         alert('מחתים לא תקין');
         return false;
     }
@@ -88,6 +88,8 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
         alert('בחר את הציוד להחתמה');
         return false;
     }
+
+    let itemFlag = true;
 
     if(computer.value === '')
         computer.value = null;
@@ -105,24 +107,27 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
                 case '3':
                     if(computer.length<2){
                         alert('אזור מחשב לא תקין');
-                         return false;
+                         itemFlag = false;
                     }
                     break;
                   case '4':
                     if(phone.length<2){
                         alert('אזור פלאפון לא תקין');
-                       return false;
+                        itemFlag = false;
                     }
                     break;
                   case '9':
                     if(other.length<2){
                         alert('אחר לא תקין');
-                         return false;
+                        itemFlag = false;
                     }
                     break;
             }
         })
-        
+
+        if(!itemFlag)
+            return false;
+            
         if(signaturePad.isEmpty()){
             alert('נא לחתום על מהסמך');
             return false;

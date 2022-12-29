@@ -99,10 +99,12 @@ app.get('/', async function (req, res) {
     let statement2 = "DELETE from workers WHERE";
     workerData.forEach((userid, index) => {
       index !== workerData.length - 1 ? statement += ` workers.id = ${userid} ||` : statement += ` workers.id = ${userid}`;
-      index !== workerData - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
+      index !== workerData.length - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
     });
     console.log(statement);
+
     await deleteQuery(statement, con, "Users deleted", statement2);
+
   }
 
   else if (clientRequest === '6') {
