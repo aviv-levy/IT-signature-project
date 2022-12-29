@@ -19,13 +19,13 @@ function resizeCanvas() {
 window.onresize = resizeCanvas;
 resizeCanvas();
 
- signaturePad = new SignaturePad(canvas, {
- backgroundColor: 'rgba(0, 0, 0, 0.18)'
+signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgba(0, 0, 0, 0.18)'
 });
 
 //Onclick clear signature pad
-document.getElementById("clear").addEventListener('click', function(){
- signaturePad.clear();
+document.getElementById("clear").addEventListener('click', function () {
+    signaturePad.clear();
 })
 
 //Get all items from database by worker id and shows it
@@ -190,95 +190,100 @@ let deleteItems = async () => {
 
 
 //Onclick save user and send request to insert in database
-function saveSignature(){
+function saveSignature() {
     let dataURL = canvas.toDataURL("image/png");
 
     let date = document.getElementById('date').value;
     let itworker = document.getElementById('itworker').value;
-    let items  = document.querySelectorAll('.items:checked');
+    let items = document.querySelectorAll('.items:checked');
     let computer = document.getElementById('computer').value;
     let phone = document.getElementById('phone').value;
     let other = document.getElementById('other').value;
-    
+
     let arrItems = [];
-    if(validation(date,itworker,items,computer,phone,other,arrItems)){
+    if (validation(date, itworker, items, computer, phone, other, arrItems)) {
         arrItems = JSON.stringify(arrItems);
-        let workerobj ={idworker:ID,workername:NAME,date,department:DEPARTMENT,itworker,arrItems,computer,phone,other,dataURL,onlyitems:true};
+        let workerobj = { idworker: ID, workername: NAME, date, department: DEPARTMENT, itworker, arrItems, computer, phone, other, dataURL, onlyitems: true };
         insertUser(workerobj);
     }
 
 }
 
 //connect to database and insert a user
-function insertUser(myWorker){
+function insertUser(myWorker) {
     console.log(JSON.stringify(myWorker));
 
     fetch('http://localhost:8080', {
-            method: 'GET',
-            headers: {
-                '1': '2',
-                '2': encodeURI(JSON.stringify(myWorker))
-            }
-        }).then(location.reload())
+        method: 'GET',
+        headers: {
+            '1': '2',
+            '2': encodeURI(JSON.stringify(myWorker))
+        }
+    }).then(location.reload())
 }
 
 
 //validate inputs and return true if inputs are corrctly inserted
-function validation(date,itworker,items,computer,phone,other,arrItems){
-    
-    if(date === ''){
+function validation(date, itworker, items, computer, phone, other, arrItems) {
+
+    if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
         alert('נא להזין תאריך חתימה');
         return false;
-    }    
+    }
 
-    if(itworker.length<2){
+    if (itworker.length < 2 || (!/^[א-ת\s]*$/.test(itworker))) {
         alert('מחתים לא תקין');
         return false;
     }
 
-    if(items[0] === undefined){
+    if (items[0] === undefined) {
         alert('בחר את הציוד להחתמה');
         return false;
     }
 
-    if(computer.value === '')
+    let itemFlag = true;
+
+    if (computer.value === '')
         computer.value = null;
 
-    if(phone.value === '')
+    if (phone.value === '')
         phone.value = null;
 
-    if(other.value === '')
+    if (other.value === '')
         other.value = null;
-    
 
-        items.forEach((item)=>{
-            arrItems.push(item.value);
-            switch(item.value){
-                case '3':
-                    if(computer.length<2){
-                        alert('אזור מחשב לא תקין');
-                         return false;
-                    }
-                    break;
-                  case '4':
-                    if(phone.length<2){
-                        alert('אזור פלאפון לא תקין');
-                       return false;
-                    }
-                    break;
-                  case '9':
-                    if(other.length<2){
-                        alert('אחר לא תקין');
-                         return false;
-                    }
-                    break;
-            }
-        })
-        
-        if(signaturePad.isEmpty()){
-            alert('נא לחתום על מהסמך');
-            return false;
+
+    items.forEach((item) => {
+        arrItems.push(item.value);
+        switch (item.value) {
+            case '3':
+                if (computer.length < 2) {
+                    alert('אזור מחשב לא תקין');
+                    itemFlag = false;
+                }
+                break;
+            case '4':
+                if (phone.length < 2) {
+                    alert('אזור פלאפון לא תקין');
+                    itemFlag = false;
+                }
+                break;
+            case '9':
+                if (other.length < 2) {
+                    alert('אחר לא תקין');
+                    itemFlag = false;
+                }
+                break;
         }
+    })
+
+    if (!itemFlag)
+        return false;
+
+    if (signaturePad.isEmpty()) {
+        alert('נא לחתום על מהסמך');
+        return false;
+    }
 
     return true;
 }
