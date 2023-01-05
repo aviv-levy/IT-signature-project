@@ -1,4 +1,5 @@
 let workerstable = document.getElementById('workerstable');
+let sum = document.getElementById('sum');
 let search = document.getElementById('search');
 let myresult;
 //#####
@@ -10,13 +11,19 @@ fetch('http://localhost:8080', {
 })
     .then((response) => response.json())
     .then((result) => {
+        let count = 0;
         myresult = result;
         console.log('Success:', result);
         result.forEach(worker => {
+            let securitysigned = '';
+            worker.securitysign ? securitysigned = `<td class='signed'>חתום</td>` : securitysigned = `<td class='not-signed'>לא חתום</td>`
+
             workerstable.innerHTML += ` <tr>
-        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
+        <td><input class="checkUsers" type="checkbox" value="${worker.id}"> </td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.email}</td> <td>${worker.id}</td>${securitysigned}
     </tr>`
+            count++;
         });
+        sum.innerHTML = ` <span>סה"כ: ${count}</span>`
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -31,12 +38,18 @@ search.addEventListener("input", () => {
             return worker;
         }
     })
+    let count = 0;
     workerstable.innerHTML = ``;
     myfilteredworkers.forEach((worker) => {
+        let securitysigned = '';
+        worker.securitysign ? securitysigned = `<td class='signed'>חתום</td>` : securitysigned = `<td class='not-signed'>לא חתום</td>`
         workerstable.innerHTML += ` <tr>
-        <td><input class="checkUsers" type="checkbox" value="${worker.id}"></td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.id}</td>
+        <td><input class="checkUsers" type="checkbox" value="${worker.id}"> </td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.email}</td> <td>${worker.id}</td>${securitysigned}
     </tr>`;
+        count++;
     })
+    sum.innerHTML = ` <span>סה"כ: ${count}</span>`
+
 })
 //#####
 //delete function for selected checkboxes

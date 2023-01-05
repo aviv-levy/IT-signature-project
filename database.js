@@ -48,7 +48,7 @@ app.get('/', async function (req, res) {
       let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
       //Check if user exist if exists skip it, if not insert it
       if (userExistResult[0] === undefined) {
-        let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "')";
+        let statement = "INSERT INTO workers (id,name,department,email,securitysign) VALUES ('" + workerData.idworker + "','" + workerData.workername + "','" + workerData.department + "','" + workerData.email + "','" + 0 + "')";
         insertQuery(statement, con);
       }
       else
@@ -88,8 +88,12 @@ app.get('/', async function (req, res) {
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
     //Check if user exist if exists skip it, if not insert it
     if (userExistResult2[0] === undefined) {
-      let statement = "INSERT INTO workers (id,name,department) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.department + "')";
+      let statement = "INSERT INTO workers (id,name,department,email,securitysign) VALUES ('" + workerData.id + "','" + workerData.name + "','" + workerData.department + "','" + workerData.email + "','" + 1 + "')";
       insertQuery(statement, con);
+    }
+    else {
+      let statement = "UPDATE workers SET securitysign = " + true + " WHERE id = " + workerData.id + "";
+      updateQuery(statement, con)
     }
   }
 
@@ -139,6 +143,13 @@ function insertQuery(statement, con) {
   con.query(statement, function (err, result) {
     if (err) throw err;
     console.log("1 record inserted");
+  });
+};
+
+function updateQuery(statement, con) {
+  con.query(statement, function (err, result) {
+    if (err) throw err;
+    console.log("1 record updated");
   });
 };
 

@@ -30,15 +30,16 @@ function saveSignature(){
     let date = document.getElementById('date').value;
     let department = document.getElementById('department').value;
     let itworker = document.getElementById('itworker').value;
+    let email = document.getElementById('email').value;
     let items  = document.querySelectorAll('.items:checked');
     let computer = document.getElementById('computer').value;
     let phone = document.getElementById('phone').value;
     let other = document.getElementById('other').value;
     
     let arrItems = [];
-    if(validation(idworker,workername,date,department,itworker,items,computer,phone,other,arrItems)){
+    if(validation(idworker,workername,date,department,itworker,email,items,computer,phone,other,arrItems)){
         arrItems = JSON.stringify(arrItems);
-        let workerobj ={idworker,workername,date,department,itworker,arrItems,computer,phone,other,dataURL,onlyitems:false};
+        let workerobj ={idworker,workername,date,department,itworker,email,arrItems,computer,phone,other,dataURL,onlyitems:false};
         insertUser(workerobj);
     }
 
@@ -56,9 +57,8 @@ function insertUser(myWorker){
     location.reload()
 }
 
-
 //validate inputs and return true if inputs are corrctly inserted
-function validation(idworker,worker,date,department,itworker,items,computer,phone,other,arrItems){
+function validation(idworker,worker,date,department,itworker,email,items,computer,phone,other,arrItems){
 
     if(idworker.length<3 || idworker.length>4 ||(!/^\d+$/.test(idworker))){
         alert('מספר עובד חייב להיות 3 או 4 ספרות');
@@ -81,6 +81,10 @@ function validation(idworker,worker,date,department,itworker,items,computer,phon
 
     if(itworker.length<2 || (!/^[א-ת\s]*$/.test(itworker))){
         alert('מחתים לא תקין');
+        return false;
+    }
+    if(!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+        alert('מייל לא תקין');
         return false;
     }
 

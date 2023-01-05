@@ -1,5 +1,5 @@
 table {
-    width: 60%;
+    width: 100%;
     background-color: #FFFFFF;
     border-collapse: collapse;
     border-width: 2px;
@@ -36,6 +36,8 @@ table {
   }
   .mycenter{
     text-align: center;
+    width: 65%;
+    margin: auto;
   }
 
   .containsearch{
@@ -157,6 +159,21 @@ button {
   width: 100%;
 }
 
+#sum{
+  display: flex;
+  margin-top: 20px;
+  margin-right: 10px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.signed{
+  background-color: #7fe483;
+}
+
+.not-signed{
+  background-color: #e47f7f;
+}
 
 /* 
 .mysearch{

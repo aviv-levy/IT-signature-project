@@ -99,28 +99,34 @@
         <br><br>
         <form id="my-form">
             <div class="inputcontainer">
-            <span>אני </span><input type="text" id="name" name="name" class="myinput"><span class="focus-border"></span><span> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
+                <span>אני </span><input type="text" id="name" name="name" class="myinput"><span
+                    class="focus-border"></span><span> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
             </div>
             <br>
             <div class="inputcontainer">
-            <span>מספר עובד:</span><input type="text" id="idworker" name="idworker" class="myinput"><span class="focus-border"></span><span>מחלקה:</span> 
-            <select name="department" id="department">
-                <option>בחר מחלקה</option>
-                <option value="מחשוב">מחשוב</option>
-                <option value="מתכנת">מתכנת</option>
-                <option value="QA">QA</option>
-                <option value="הנהלת חשבונות">הנהלת חשבונות</option>
-                <option value="טכנאים">טכנאים</option>
-                <option value="קופות">קופות</option>
-                <option value="ERP">ERP</option>
-                <option value="מנהל פרוייקטים">מנהל פרוייקטים</option>
-                <option value="מכירות">מכירות</option>
-                <option value="מסופונים">מסופונים</option>
-            </select>
+                <span>מספר עובד:</span><input type="text" id="idworker" name="idworker" class="myinput"><span
+                    class="focus-border"></span><span>מחלקה:</span>
+                <select name="department" id="department">
+                    <option>בחר מחלקה</option>
+                    <option value="מחשוב">מחשוב</option>
+                    <option value="מתכנת">מתכנת</option>
+                    <option value="QA">QA</option>
+                    <option value="הנהלת חשבונות">הנהלת חשבונות</option>
+                    <option value="טכנאים">טכנאים</option>
+                    <option value="קופות">קופות</option>
+                    <option value="ERP">ERP</option>
+                    <option value="מנהל פרוייקטים">מנהל פרוייקטים</option>
+                    <option value="מנהל מוצר">מנהל מוצר</option>
+                    <option value="מכירות">מכירות</option>
+                    <option value="מסופונים">מסופונים</option>
+                </select>
             </div>
             <br>
             <div class="inputcontainer">
-            <span>תאריך: <input type="date" id="date" name="date"  class="myinput"><span class="focus-border"></span></span>
+                <span>מייל: <input type="email" id="email" name="email" class="myinput"><span
+                        class="focus-border"></span></span>
+                <span>תאריך: <input type="date" id="date" name="date" class="myinput"><span
+                        class="focus-border"></span></span>
             </div>
             <br>
 
@@ -142,7 +148,7 @@
         <button id="signbtn" onclick="signclick()">חתימה</button>
     </div>
 
- 
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"

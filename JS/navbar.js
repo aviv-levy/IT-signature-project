@@ -5,5 +5,6 @@ navbar.innerHTML = `
 <a href="myworkers.html"><li>כלל העובדים</li></a>
 <a href="index.html"><li>עובד חדש</li></a>
 <a href="secutritySign.html"><li>אבטחת מידע</li></a>
+<a href="left-workers.html"><li>עובדם שעזבו</li></a>
 </ul>
 `

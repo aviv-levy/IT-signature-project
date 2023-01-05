@@ -28,11 +28,11 @@ function signclick() {
 
     let form = document.getElementById('my-form');
 
-    let { name, idworker, department, date } = form.elements;
+    let { name, idworker, department, email, date } = form.elements;
     //date.value.split("-").reverse().join("-")
-    let workerobj = { name: name.value, id: idworker.value, department: department.value, date: date.value, pic: dataURL };
-    if (validation(name.value, idworker.value, department.value, date.value))
-          insertUser(workerobj);
+    let workerobj = { name: name.value, id: idworker.value, department: department.value, email: email.value, date: date.value, pic: dataURL };
+    if (validation(name.value, idworker.value, department.value, email.value, date.value))
+        insertUser(workerobj);
 }
 
 
@@ -51,25 +51,30 @@ function insertUser(myWorker) {
 
 
 //validate inputs and return true if inputs are corrctly inserted
-function validation(worker, idworker, department, date) {
+function validation(worker, idworker, department, email, date) {
 
-    if(worker.length<2 || (!/^[א-ת\s]*$/.test(worker))){
+    if (worker.length < 2 || (!/^[א-ת\s]*$/.test(worker))) {
         alert('שם עובד לא תקין');
         return false;
     }
 
-    if(idworker.length<3 || idworker.length>4 ||(!/^\d+$/.test(idworker))){
+    if (idworker.length < 3 || idworker.length > 4 || (!/^\d+$/.test(idworker))) {
         alert('מספר עובד חייב להיות 3 או 4 ספרות');
         return false;
     }
 
-    
+
     if (department === 'בחר מחלקה') {
         alert('מחלקה לא תקינה');
         return false;
     }
 
-    if(date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))){ 
+    if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+        alert('מייל לא תקין');
+        return false;
+    }
+
+    if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
         alert('נא להזין תאריך חתימה');
         return false;
     }
