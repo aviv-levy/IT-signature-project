@@ -1,3 +1,4 @@
+const URL = 'http://localhost:8080';
 var canvas = document.getElementById("signature-pad");
 
 
@@ -38,15 +39,12 @@ function signclick() {
 
 
 
-function insertUser(myWorker) {
-    const request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:8080',);
-
-    request.setRequestHeader('1', '4');
-    request.setRequestHeader('2', encodeURI(JSON.stringify(myWorker))); // Encode and set worker object in request header.
-
-    request.send()
-    location.reload()
+async function insertUser(myWorker) {
+    await fetch(URL + '/security-sign', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(myWorker)
+    }).then(location.reload())
 }
 
 
