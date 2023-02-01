@@ -6,12 +6,14 @@ const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json())
 
 app.use(express.json());
 app.use(cors());
 
+//SQL config
 let con = mysql.createConnection({
   host: process.env.HOST,
   user: process.env.USER,
@@ -19,23 +21,32 @@ let con = mysql.createConnection({
   database: process.env.DATABASE
 });
 
+//Email sender config from mrelay
+const transporter = nodemailer.createTransport({
+  host: 'mrelay.comax.co.il',
+  port: 25
+})
+
 //user login to panel
-app.post('/login', async (req, res) => {
-  let { username, password } = req.body;
-  if (username === process.env.ADMIN && password === process.env.PASS) {
-    const token = jwt.sign(username, process.env.SECRET_TOKEN);
-    res.json({ token: token, expires: new Date(new Date().getTime() + 1 * 30 * 1000) });
-  }
-  else {
+app.post('/login', (req, res) => {
+  try {
+    let { username, password } = req.body;
+    if (username === process.env.ADMIN && password === process.env.PASS) {
+      const token = jwt.sign(username, process.env.SECRET_TOKEN);
+      res.json({ token: token, expires: new Date(new Date().getTime() + 1 * 30 * 1000) });
+    }
+    else
+      res.status(401).send();
+  } catch {
     res.status(500).send();
   }
 })
 
-app.post('/checkAuth', async (req, res) => {
+app.post('/checkAuth', (req, res) => {
   try {
     let { token } = req.body;
     jwt.verify(token, process.env.SECRET_TOKEN, null, () => {
-    res.status(200).json({message: 'Authorized'});
+      res.status(200).json({ message: 'Authorized' });
     })
   } catch (error) {
     res.status(401).json({
@@ -145,6 +156,31 @@ app.delete('/delete-workers', async (req, res) => {
 
 })
 
+//Send mails
+app.post('/sendMail', (req, res) => {
+  try {
+    let { emails } = req.body;
+    emails.forEach((email) => {
+      let message = {
+        from: "IT@comax.co.il",
+        to: email,
+        subject: "הודעה חדשה מהמחשוב",
+        text: "שלום רב,\n\n עליך לחתום על טופס אבטחת מידע בקישור הבא:\n\n http://it-signatures.native.local/HTML/secutritySign.html\n\n במידה והסתבכתם בחתימה יש לפנות למחשוב למייל it@comax.co.il\n\nבתודה,\nמחלקת המחשוב"
+      }
+      transporter.sendMail(message, function (err, info) {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(info);
+        }
+      })
+    })
+
+  } catch (error) {
+    console.log(error);
+  }
+})
+
 function selectQuery(statement, con) {
   let myresult = new Promise((resolve) => {
     con.query(statement, function (err, result, fields) {
@@ -181,6 +217,7 @@ function deleteQuery(statement, con, comment, statement2 = 0) {
       console.log(comment);
     });
 };
+
 
 
 app.listen(port, () => {

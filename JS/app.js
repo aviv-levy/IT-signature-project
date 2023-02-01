@@ -1,6 +1,6 @@
 import { isConnected } from "./serverAuth.js";
 
-isConnected(loadPage);
+ isConnected(loadPage);
 
 function loadPage() {
     const URL = 'http://localhost:8080';

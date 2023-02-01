@@ -25,9 +25,14 @@ async function tokenAuth(token, loadpage) {
 }
 
 export async function isConnected(loadfunc) {
-    window.onload = () => {
-        document.getElementById('root').style.display = 'none';
+    window.addEventListener('load', async ()=>{
+        const loader = document.querySelector('.loader');
+
+        loader.classList.add('loader-hidden');
         const AuthToken = getTokenFromCookie('token');
         AuthToken ? tokenAuth(AuthToken, loadfunc) :  document.location.href = 'login.html'
-    }
+        loader.addEventListener('transitionend', ()=>{
+            loader.parentNode.removeChild(loader)
+        })
+    })
 }

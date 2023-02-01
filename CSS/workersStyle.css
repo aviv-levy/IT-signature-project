@@ -39,6 +39,9 @@ table {
     width: 65%;
     margin: auto;
   }
+  .mycenter>span {
+    color: #FFFFFF;
+  }
 
   .containsearch{
     display: flex;
@@ -76,7 +79,7 @@ button {
   outline: none;
 }
 .custom-btn {
-  width: 130px;
+  width: 150px;
   height: 40px;
   padding: 10px 25px;
   border: 2px solid #000;
@@ -159,6 +162,217 @@ button {
   width: 100%;
 }
 
+.btn-7 {
+  background: rgb(54, 50, 50);
+ color: #fff;
+ line-height: 42px;
+ padding: 0;
+ border: none;
+}
+.btn-7 span {
+ position: relative;
+ display: block;
+ width: 100%;
+ height: 100%;
+}
+.btn-7:before,
+.btn-7:after {
+ position: absolute;
+ content: "";
+ height: 0%;
+ width: 2px;
+ background: rgb(54, 50, 50);
+}
+.btn-7:before {
+ right: 0;
+ top: 0;
+ transition: all 500ms ease;
+}
+.btn-7:after {
+ left: 0;
+ bottom: 0;
+ transition: all 500ms ease;
+}
+.btn-7:hover{
+ color: #000;
+ background: transparent;
+}
+.btn-7:hover:before {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-7:hover:after {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-7 span:before,
+.btn-7 span:after {
+ position: absolute;
+ content: "";
+ background: rgb(54, 50, 50);
+}
+.btn-7 span:before {
+ left: 0;
+ top: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-7 span:after {
+ right: 0;
+ bottom: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-7 span:hover:before {
+ width: 100%;
+}
+.btn-7 span:hover:after {
+ width: 100%;
+}
+
+
+.btn-8 {
+  background: #3fa5f9;
+ color: #fff;
+ line-height: 42px;
+ padding: 0;
+ border: none;
+}
+.btn-8 span {
+ position: relative;
+ display: block;
+ width: 100%;
+ height: 100%;
+}
+.btn-8:before,
+.btn-8:after {
+ position: absolute;
+ content: "";
+ height: 0%;
+ width: 2px;
+ background: #3fa5f9;
+}
+.btn-8:before {
+ right: 0;
+ top: 0;
+ transition: all 500ms ease;
+}
+.btn-8:after {
+ left: 0;
+ bottom: 0;
+ transition: all 500ms ease;
+}
+.btn-8:hover{
+ color: #000;
+ background: transparent;
+}
+.btn-8:hover:before {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-8:hover:after {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-8 span:before,
+.btn-8 span:after {
+ position: absolute;
+ content: "";
+ background: #3fa5f9;
+}
+.btn-8 span:before {
+ left: 0;
+ top: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-8 span:after {
+ right: 0;
+ bottom: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-8 span:hover:before {
+ width: 100%;
+}
+.btn-8 span:hover:after {
+ width: 100%;
+}
+
+.btn-9 {
+  background: #718394;
+ color: #fff;
+ line-height: 42px;
+ padding: 0;
+ border: none;
+}
+.btn-9 span {
+ position: relative;
+ display: block;
+ width: 100%;
+ height: 100%;
+}
+.btn-9:before,
+.btn-9:after {
+ position: absolute;
+ content: "";
+ height: 0%;
+ width: 2px;
+ background: #718394;
+}
+.btn-9:before {
+ right: 0;
+ top: 0;
+ transition: all 500ms ease;
+}
+.btn-9:after {
+ left: 0;
+ bottom: 0;
+ transition: all 500ms ease;
+}
+.btn-9:hover{
+ color: #000;
+ background: transparent;
+}
+.btn-9:hover:before {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-9:hover:after {
+ transition: all 500ms ease;
+ height: 100%;
+}
+.btn-9 span:before,
+.btn-9 span:after {
+ position: absolute;
+ content: "";
+ background: #718394;
+}
+.btn-9 span:before {
+ left: 0;
+ top: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-9 span:after {
+ right: 0;
+ bottom: 0;
+ width: 0%;
+ height: 2px;
+ transition: all 500ms ease;
+}
+.btn-9 span:hover:before {
+ width: 100%;
+}
+.btn-9 span:hover:after {
+ width: 100%;
+}
+
 #sum{
   display: flex;
   margin-top: 20px;
@@ -173,6 +387,18 @@ button {
 
 .not-signed{
   background-color: #e47f7f;
+}
+
+select {
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #fff 4%);
+  border: solid 1px rgba(255, 255, 255, 0.37);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+option {
+  color: black;
 }
 
 /* 
