@@ -13,7 +13,7 @@ window.onresize = resizeCanvas;
 resizeCanvas();
 
 var signaturePad = new SignaturePad(canvas, {
-    backgroundColor: 'rgb(250,250,250)'
+    backgroundColor: '#ffffff'
 });
 
 //Onclick clear signature pad
@@ -40,11 +40,36 @@ function signclick() {
 
 
 async function insertUser(myWorker) {
+    document.querySelector('.loader').classList.remove('loader-hidden');
     await fetch(URL + '/security-sign', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)
-    }).then(location.reload())
+    }).then(() => {
+        clearInputs();
+        document.querySelector('.loader').classList.add('loader-hidden');
+        Swal.fire(
+            'עבודה טובה!',
+            'חתימתך נרשמה',
+            'success'
+        )
+    }).catch((err)=>{
+        document.querySelector('.loader').classList.add('loader-hidden');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!'
+          })
+    })
+}
+
+function clearInputs(){
+    document.querySelectorAll('.myinput').forEach((input)=>{
+        input.value = '';
+    })
+    document.getElementById('department').value = 'בחר מחלקה'
+    signaturePad.clear()
+
 }
 
 

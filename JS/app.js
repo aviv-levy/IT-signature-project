@@ -1,6 +1,6 @@
 import { isConnected } from "./serverAuth.js";
 
- isConnected(loadPage);
+isConnected(loadPage);
 
 function loadPage() {
     const URL = 'http://localhost:8080';
@@ -55,47 +55,65 @@ function loadPage() {
 
     //connect to database and insert a user
     async function insertUser(myWorker) {
-
+        document.querySelector('.loader').classList.remove('loader-hidden');
         await fetch(URL + '/sign', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(myWorker)
-        }).then(location.reload())
+        }).then(() => {
+            document.querySelector('.loader').classList.add('loader-hidden');
+            Swal.fire(
+                'עבודה טובה!',
+                'חתימתך נרשמה',
+                'success'
+            )
+        }).catch((err) => {
+            document.querySelector('.loader').classList.add('loader-hidden');
+            alertMessage('Oops...','Something went wrong');
+        })
+    }
+
+    function alertMessage(title,message){
+        Swal.fire({
+            icon: 'error',
+            title: title,
+            text: message
+        })
     }
 
     //validate inputs and return true if inputs are corrctly inserted
     function validation(idworker, worker, date, department, itworker, email, items, computer, phone, other, arrItems) {
 
         if (idworker.length < 3 || idworker.length > 4 || (!/^\d+$/.test(idworker))) {
-            alert('מספר עובד חייב להיות 3 או 4 ספרות');
+            alertMessage('Oops...','מספר עובד חייב להיות 3 או 4 ספרות');
             return false;
         }
         if (worker.length < 2 || (!/^[א-ת\s]*$/.test(worker))) {
-            alert('שם עובד לא תקין');
+            alertMessage('Oops...','שם עובד לא תקין');
             return false;
         }
 
         if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
-            alert('נא להזין תאריך חתימה');
+            alertMessage('Oops...','נא להזין תאריך חתימה');
             return false;
         }
 
         if (department === 'בחר מחלקה') {
-            alert('מחלקה לא תקינה');
+            alertMessage('Oops...','מחלקה לא תקינה');
             return false;
         }
 
         if (itworker.length < 2 || (!/^[א-ת\s]*$/.test(itworker))) {
-            alert('מחתים לא תקין');
+            alertMessage('Oops...','מחתים לא תקין');
             return false;
         }
         if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-            alert('מייל לא תקין');
+            alertMessage('Oops...','מייל לא תקין');
             return false;
         }
 
         if (items[0] === undefined) {
-            alert('בחר את הציוד להחתמה');
+            alertMessage('Oops...','בחר את הציוד להחתמה');
             return false;
         }
 
@@ -116,19 +134,19 @@ function loadPage() {
             switch (item.value) {
                 case '3':
                     if (computer.length < 2) {
-                        alert('אזור מחשב לא תקין');
+                        alertMessage('Oops...','אזור מחשב לא תקין');
                         itemFlag = false;
                     }
                     break;
                 case '4':
                     if (phone.length < 2) {
-                        alert('אזור פלאפון לא תקין');
+                        alertMessage('Oops...','אזור פלאפון לא תקין');
                         itemFlag = false;
                     }
                     break;
                 case '9':
                     if (other.length < 2) {
-                        alert('אחר לא תקין');
+                        alertMessage('Oops...','אחר לא תקין');
                         itemFlag = false;
                     }
                     break;
@@ -139,7 +157,7 @@ function loadPage() {
             return false;
 
         if (signaturePad.isEmpty()) {
-            alert('נא לחתום על מהסמך');
+            alertMessage('Oops...','נא לחתום על מהסמך');
             return false;
         }
 

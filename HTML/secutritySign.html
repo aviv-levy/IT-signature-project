@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/securitysignstyle.css">
+    <link rel="stylesheet" href="../CSS//loader.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <title>Document</title>
 </head>
 
@@ -13,16 +15,16 @@
 
     <div class="header">
         <div class="details">
-            <span>נייטיב דטה מערכות (1995) בע"מ</span>
+            <span class="mytext">נייטיב דטה מערכות (1995) בע"מ</span>
             <br>
-            <span>החורטים 11 חולון</span>
+            <span class="mytext">החורטים 11 חולון</span>
             <br>
-            <span>03-6506300 5885* mail@comax.co.il</span>
+            <span class="mytext">03-6506300 5885* mail@comax.co.il</span>
             <br>
-            <span>www.comax.co.il </span>
+            <span class="mytext">www.comax.co.il </span>
         </div>
         <div class="comaximg">
-            <img src="../securitysigncomax.png" alt="comax image">
+            <img id="comaximg" src="../securitysigncomax.png" alt="comax image">
         </div>
     </div>
     <h1>נהלי אבטחת מידע - חברת נייטיב דטה מערכות בע"מ.</h1>
@@ -41,9 +43,9 @@
         </p>
 
         <div class="info">
-            <span><strong>להלן נהלים:</strong></span>
+            <span class="mytext"><strong>להלן נהלים:</strong></span>
             <br><br>
-            <span class="numbers">1. נהלי סיסמאות</span>
+            <span class="numbers mytext">1. נהלי סיסמאות</span>
 
             <p class="number1">
                 &#8226; סיסמאות המשתמשים יוחלפו ע" המשתמשים עד 42 יום מקביעת סיסמתם הנוכחית.
@@ -65,7 +67,7 @@
             </p>
         </div>
         <div class="info">
-            <span class="numbers">2. נהלי עבודה</span>
+            <span class="numbers mytext">2. נהלי עבודה</span>
 
             <p class="number1">
                 &#8226; משתמש שעזב את עמדות ינעל את מחשבו באופן המחייב הקשת סיסמא על מנת לפתוח את המחשב שנית.
@@ -92,20 +94,20 @@
         </div>
         <br>
         <strong>
-            <span>בברכה,</span>
+            <span class="mytext">בברכה,</span>
             <br>
-            <span>מחלקת מחשוב</span>
+            <span class="mytext">מחלקת מחשוב</span>
         </strong>
         <br><br>
         <form id="my-form">
             <div class="inputcontainer">
-                <span>אני </span><input type="text" id="name" name="name" class="myinput"><span
-                    class="focus-border"></span><span> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
+                <span class="mytext">אני </span><input type="text" id="name" name="name" class="myinput"><span
+                    class="focus-border mytext"></span><span class="mytext"> קראתי את הכתוב ומתחייב לשמור על נהלים אלו</span>
             </div>
             <br>
             <div class="inputcontainer">
-                <span>מספר עובד:</span><input type="text" id="idworker" name="idworker" class="myinput"><span
-                    class="focus-border"></span><span>מחלקה:</span>
+                <span class="mytext">מספר עובד:</span><input type="text" id="idworker" name="idworker" class="myinput"><span
+                    class="focus-border mytext"></span><span class="mytext">מחלקה:</span>
                 <select name="department" id="department">
                     <option>בחר מחלקה</option>
                     <option value="מחשוב">מחשוב</option>
@@ -123,21 +125,21 @@
             </div>
             <br>
             <div class="inputcontainer">
-                <span>מייל: <input type="email" id="email" name="email" class="myinput"><span
-                        class="focus-border"></span></span>
-                <span>תאריך: <input type="date" id="date" name="date" class="myinput"><span
-                        class="focus-border"></span></span>
+                <span class="mytext">מייל: <input type="email" id="email" name="email" class="myinput"><span
+                        class="focus-border mytext"></span></span>
+                <span class="mytext">תאריך: <input type="date" id="date" name="date" class="myinput"><span
+                        class="focus-border mytext"></span></span>
             </div>
             <br>
 
             <div id="signp">
-                <span>חתימה:</span>
+                <span class="mytext">חתימה:</span>
                 <div class="flex-row">
                     <div class="wrapper">
                         <canvas id="signature-pad"></canvas>
                     </div>
                     <div class="clear-btn">
-                        <button type="button" id="clear"><span> נקה חתימה </span></button>
+                        <button type="button" id="clear"><span class="mytext"> נקה חתימה </span></button>
                     </div>
                 </div>
 
@@ -148,12 +150,13 @@
         <button id="signbtn" onclick="signclick()">חתימה</button>
     </div>
 
-
+<div class="loader loader-hidden"></div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
         integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../JS/securitysign.js"></script>
 </body>
 

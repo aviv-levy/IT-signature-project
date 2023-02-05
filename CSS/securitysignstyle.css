@@ -10,7 +10,7 @@ body{
     width: 40%;
 }
 
-img{
+#comaximg{
     width: 60%;
     float: left;
 
@@ -45,7 +45,7 @@ p:first-child{
     font-size: 1.3vw;
 }
 
-span{
+.mytext{
     font-size: 1.3vw;
 }
 

@@ -21,7 +21,7 @@ async function tokenAuth(token, loadpage) {
             document.getElementById('root').style.display = 'block';
             loadpage();
         }
-    })
+    }).catch(error => console.log(error))
 }
 
 export async function isConnected(loadfunc) {
