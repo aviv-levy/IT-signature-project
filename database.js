@@ -136,6 +136,10 @@ app.post('/security-sign', async (req, res) => {
       let statement = "INSERT INTO securitysigns (id,name,date,signature) VALUES ('" + id + "','" + name + "','" + date + "','" + pic + "') "
       insertQuery(statement, con);
     }
+    else {
+      let statement = "UPDATE securitysigns SET signature = '" + pic + "', date = '" + date + "' WHERE id = " + id + "";
+      await updateQuery(statement, con)
+    }
 
     let statement2 = "SELECT id from workers where id = '" + id + "'";
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
@@ -160,7 +164,7 @@ app.delete('/delete-items', async (req, res) => {
   try {
     let { ids } = req.body;
     console.log(typeof (ids), ids)
-    let statement = "UPDATE items SET returned = "+ true +" WHERE";
+    let statement = "UPDATE items SET returned = " + true + " WHERE";
     if (typeof (ids) === 'string')
       statement += ` id = ${ids}`
     else {
