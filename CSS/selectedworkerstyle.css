@@ -8,6 +8,11 @@ h2 {
     margin: auto;
 }
 
+#displayReturn {
+    width: 50vw;
+    margin: auto;
+}
+
 #securitydisp {
     display: flex;
     flex-direction: column;

@@ -61,6 +61,7 @@ function loadPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(myWorker)
         }).then(() => {
+            clearInputs();
             document.querySelector('.loader').classList.add('loader-hidden');
             Swal.fire(
                 'עבודה טובה!',
@@ -69,7 +70,7 @@ function loadPage() {
             )
         }).catch((err) => {
             document.querySelector('.loader').classList.add('loader-hidden');
-            alertMessage('Oops...','Something went wrong');
+            alertMessage('Oops...',err.message);
         })
     }
 
@@ -162,5 +163,16 @@ function loadPage() {
         }
 
         return true;
+    }
+
+    function clearInputs(){
+        document.querySelectorAll('.myInput').forEach(element=>{
+            element.value = '';
+        });
+        //אני צריך להוסיף לצק בוקס
+        document.querySelectorAll('.myCheck').forEach(element=>{
+            element.checked = false;
+        });
+        signaturePad.clear();
     }
 }

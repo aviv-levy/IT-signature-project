@@ -32,7 +32,8 @@ app.post('/login', (req, res) => {
   try {
     let { username, password } = req.body;
     if (username === process.env.ADMIN && password === process.env.PASS) {
-      const token = jwt.sign(username, process.env.SECRET_TOKEN);
+      delete req.body.password;
+      const token = jwt.sign(req.body, process.env.SECRET_TOKEN);
       res.json({ token: token, expires: new Date(new Date().getTime() + 1 * 30 * 1000) });
     }
     else
@@ -59,13 +60,12 @@ app.post('/checkAuth', (req, res) => {
 app.post('/sign', async (req, res) => {
   try {
     let { idworker, workername, date, department, itworker, email, arrItems, computer, phone, other, dataURL, onlyitems } = req.body;
-
     if (!onlyitems) {
       let statement = "SELECT id from workers where id = '" + idworker + "'";
       let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
       //Check if user exist if exists skip it, if not insert it
       if (userExistResult[0] === undefined) {
-        let statement = "INSERT INTO workers (id,name,department,email,securitysign) VALUES ('" + idworker + "','" + workername + "','" + department + "','" + email + "','" + 0 + "')";
+        let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + idworker + "','" + workername + "','" + department + "','" + email + "','" + 0 + "','0')";
         await insertQuery(statement, con);
       }
       else
@@ -85,19 +85,28 @@ app.post('/sign', async (req, res) => {
           describedItem = other;
           break;
       }
-      statement = "INSERT INTO items (idworker,date,itworker,items,describedItem,sign) VALUES ('" + idworker + "','" + date + "','" + itworker + "','" + item + "','" + describedItem + "','" + dataURL + "')";
+      statement = "INSERT INTO items (idworker,date,itworker,items,describedItem,sign,returned) VALUES ('" + idworker + "','" + date + "','" + itworker + "','" + item + "','" + describedItem + "','" + dataURL + "','0')";
       await insertQuery(statement, con);
     })
-    res.status(201).send('Items were added')
+    res.status(201).send('Items were added');
   } catch (err) {
-    res.status(500).send();
+    res.status(500).send(err.message);
   }
 })
 
 //Select all workers
 app.get('/workers', async (req, res) => {
   try {
-    res.status(200).send(await selectQuery("SELECT * FROM workers", con));
+    res.status(200).send(await selectQuery("SELECT * FROM workers WHERE retired = 0", con));
+  } catch (err) {
+    res.status(500).send();
+  }
+})
+
+//Select all workers who left the work
+app.get('/left-workers', async (req, res) => {
+  try {
+    res.status(200).send(await selectQuery("SELECT * FROM workers WHERE retired = 1", con));
   } catch (err) {
     res.status(500).send();
   }
@@ -132,7 +141,7 @@ app.post('/security-sign', async (req, res) => {
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
     //Check if user exist if exists skip it, if not insert it
     if (userExistResult2[0] === undefined) {
-      let statement = "INSERT INTO workers (id,name,department,email,securitysign) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + "')";
+      let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + ",false')";
       insertQuery(statement, con);
     }
     else {
@@ -151,7 +160,7 @@ app.delete('/delete-items', async (req, res) => {
   try {
     let { ids } = req.body;
     console.log(typeof (ids), ids)
-    let statement = "DELETE from items WHERE";
+    let statement = "UPDATE items SET returned = "+ true +" WHERE";
     if (typeof (ids) === 'string')
       statement += ` id = ${ids}`
     else {
@@ -159,31 +168,76 @@ app.delete('/delete-items', async (req, res) => {
         index !== ids.length - 1 ? statement += ` id = ${itemid} ||` : statement += ` id = ${itemid}`
       });
     }
-    await deleteQuery(statement, con, "items deleted");
-    res.status(204).send('Deleted');
+    await deleteQuery(statement, con, "items returned");
+    res.status(204).send('Returned');
   } catch (err) {
     res.status(500).send();
   }
 })
 
+//Set workers to retired true
 app.delete('/delete-workers', async (req, res) => {
   try {
     let { workers_ID } = req.body;
-    let statement = "DELETE workers,items from workers INNER JOIN items ON workers.id = items.idworker WHERE";
-    let statement2 = "DELETE from workers WHERE";
+    let statement = "UPDATE workers SET retired = " + true + " WHERE";
     workers_ID.forEach((userid, index) => {
-      index !== workers_ID.length - 1 ? statement += ` workers.id = ${userid} ||` : statement += ` workers.id = ${userid}`;
-      index !== workers_ID.length - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
+      index !== workers_ID.length - 1 ? statement += ` id = ${userid} ||` : statement += ` id = ${userid}`;
     });
     console.log(statement);
 
-    await deleteQuery(statement, con, "Users deleted", statement2);
+    await deleteQuery(statement, con, "Users deleted");
     res.status(204).send('Deleted');
   } catch (err) {
     res.status(500).send();
   }
 
 })
+
+
+
+
+
+
+// app.delete('/delete-items', async (req, res) => {
+//   try {
+//     let { ids } = req.body;
+//     console.log(typeof (ids), ids)
+//     let statement = "DELETE from items WHERE";
+//     if (typeof (ids) === 'string')
+//       statement += ` id = ${ids}`
+//     else {
+//       ids.forEach((itemid, index) => {
+//         index !== ids.length - 1 ? statement += ` id = ${itemid} ||` : statement += ` id = ${itemid}`
+//       });
+//     }
+//     await deleteQuery(statement, con, "items deleted");
+//     res.status(204).send('Deleted');
+//   } catch (err) {
+//     res.status(500).send();
+//   }
+// })
+
+
+
+
+// app.delete('/delete-workers', async (req, res) => {
+//   try {
+//     let { workers_ID } = req.body;
+//     let statement = "DELETE workers,items from workers INNER JOIN items ON workers.id = items.idworker WHERE";
+//     let statement2 = "DELETE from workers WHERE";
+//     workers_ID.forEach((userid, index) => {
+//       index !== workers_ID.length - 1 ? statement += ` workers.id = ${userid} ||` : statement += ` workers.id = ${userid}`;
+//       index !== workers_ID.length - 1 ? statement2 += ` id = ${userid} ||` : statement2 += ` id = ${userid}`
+//     });
+//     console.log(statement);
+
+//     await deleteQuery(statement, con, "Users deleted", statement2);
+//     res.status(204).send('Deleted');
+//   } catch (err) {
+//     res.status(500).send();
+//   }
+
+// })
 
 //Send mails
 app.post('/sendMail', (req, res) => {
@@ -223,10 +277,17 @@ function selectQuery(statement, con) {
 }
 
 async function insertQuery(statement, con) {
-  await con.query(statement, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted");
-  });
+  await new Promise((resolve, reject) => con.query(statement, (err, results) => {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(results);
+    }
+  }));
+  // await con.query(statement, function (err, result) {
+  //   if (err) throw err;
+  //   console.log("1 record inserted");
+  // });
 };
 
 async function updateQuery(statement, con) {
