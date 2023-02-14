@@ -1,3 +1,4 @@
+import "jspdf/dist/polyfills.es.js";
 const URL = 'http://localhost:8080';
 var canvas = document.getElementById("signature-pad");
 
@@ -20,7 +21,6 @@ var signaturePad = new SignaturePad(canvas, {
 document.getElementById("clear").addEventListener('click', function () {
     signaturePad.clear();
 })
-
 
 
 
@@ -53,23 +53,29 @@ async function insertUser(myWorker) {
             'חתימתך נרשמה',
             'success'
         )
-    }).catch((err)=>{
+    }).catch((err) => {
         document.querySelector('.loader').classList.add('loader-hidden');
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'Something went wrong!'
-          })
+        })
     })
 }
 
-function clearInputs(){
-    document.querySelectorAll('.myinput').forEach((input)=>{
+function clearInputs() {
+    document.querySelectorAll('.myinput').forEach((input) => {
         input.value = '';
     })
     document.getElementById('department').value = 'בחר מחלקה'
     signaturePad.clear()
 
+}
+
+function pdfPrint(){
+    console.log('pdff');
+    const doc = new jsPDF();
+    doc.save("test.pdf")
 }
 
 

@@ -7,6 +7,7 @@ const app = express();
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const { jsPDF } = require('jspdf');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json())
 
@@ -197,7 +198,12 @@ app.delete('/delete-workers', async (req, res) => {
 
 })
 
-
+app.get('/createPDF', (req, res) => {
+  const doc = new jsPDF();
+  doc.text("Hello world!", 10, 10);
+  doc.save('Test.pdf');
+  res.status(200).send('hooray')
+})
 
 
 
