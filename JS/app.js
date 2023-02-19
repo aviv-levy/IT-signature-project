@@ -1,9 +1,5 @@
-import { isConnected } from "./serverAuth.js";
 
-isConnected(loadPage);
-
-function loadPage() {
-    const URL = 'http://localhost:8080';
+    const URL = 'https://localhost';
     var canvas = document.getElementById("signature-pad");
     var signaturePad;
 
@@ -175,4 +171,3 @@ function loadPage() {
         });
         signaturePad.clear();
     }
-}

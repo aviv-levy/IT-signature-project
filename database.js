@@ -1,9 +1,13 @@
 var mysql = require('mysql');
 require('dotenv').config();
-const port = 8080;
+const port = 443;
+const https = require('https')
 
+const fs = require('fs')
 const express = require('express');
 const app = express();
+const { join } = require("path");
+const path = require('path')
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -13,6 +17,15 @@ app.use(bodyParser.json())
 
 app.use(express.json());
 app.use(cors());
+
+app.set("views", join(__dirname, "views"));
+app.use(express.static(__dirname));
+
+const panel = require('./views/panel')
+const login = require('./views/login')
+const newWorker = require('./views/newWorker')
+const securitySign = require('./views/securitySign')
+const retiredWorkers = require('./views/retiredWorkers')
 
 //SQL config
 let con = mysql.createConnection({
@@ -33,9 +46,9 @@ app.post('/login', (req, res) => {
   try {
     let { username, password } = req.body;
     if (username === process.env.ADMIN && password === process.env.PASS) {
-      delete req.body.password;
-      const token = jwt.sign(req.body, process.env.SECRET_TOKEN);
-      res.json({ token: token, expires: new Date(new Date().getTime() + 1 * 30 * 1000) });
+      //const token = jwt.sign(req.body, process.env.SECRET_TOKEN);
+      const token = jwt.sign({ id: username }, process.env.SECRET_TOKEN, { expiresIn: '30m' });
+      res.cookie('token', token).send();
     }
     else
       res.status(401).send();
@@ -48,7 +61,7 @@ app.post('/checkAuth', (req, res) => {
   try {
     let { token } = req.body;
     jwt.verify(token, process.env.SECRET_TOKEN, null, () => {
-      res.status(200).json({ message: 'Authorized' });
+      res.status(200).json({ message: 'Authorized' })
     })
   } catch (error) {
     res.status(401).json({
@@ -146,7 +159,7 @@ app.post('/security-sign', async (req, res) => {
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
     //Check if user exist if exists skip it, if not insert it
     if (userExistResult2[0] === undefined) {
-      let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + ",false')";
+      let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + ",0')";
       insertQuery(statement, con);
     }
     else {
@@ -320,9 +333,20 @@ async function deleteQuery(statement, con, comment, statement2 = 0) {
 };
 
 
+app.use('/panel',panel);
+app.use('/login',login);
+app.use('/newWorker',newWorker);
+app.use('/securitySign',securitySign);
+app.use('/retiredWorkers',retiredWorkers);
 
-app.listen(port, () => {
-  console.log('Server is listening');
+const httpsServer = https.createServer({
+  key:fs.readFileSync(path.join(__dirname,'cert','key.pem')),
+  cert:fs.readFileSync(path.join(__dirname,'cert','cert.pem'))
+},app)
+
+
+httpsServer.listen(port, () => {
+  console.log('Server is running ...');
 })
 
 

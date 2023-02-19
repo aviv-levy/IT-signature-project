@@ -1,5 +1,4 @@
-import "jspdf/dist/polyfills.es.js";
-const URL = 'http://localhost:8080';
+const URL = 'https://localhost';
 var canvas = document.getElementById("signature-pad");
 
 

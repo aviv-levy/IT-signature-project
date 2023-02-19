@@ -1,9 +1,5 @@
-import { isConnected } from "./serverAuth.js";
 
-isConnected(loadPage);
-
-function loadPage() {
-    const URL = 'http://localhost:8080';
+    const URL = 'https://localhost';
     //get parmas of worker from url
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -300,4 +296,3 @@ function loadPage() {
 
         return true;
     }
-}

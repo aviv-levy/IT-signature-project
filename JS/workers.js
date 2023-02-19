@@ -1,9 +1,5 @@
-import { isConnected } from "./serverAuth.js";
 
-isConnected(loadPage);
-
-function loadPage() {
-    const URL = 'http://localhost:8080'
+    const URL = 'https://localhost'
     let workerstable = document.getElementById('workerstable');
     let sum = document.getElementById('sum');
     let search = document.getElementById('search');
@@ -77,7 +73,7 @@ function loadPage() {
             checkedusers.forEach(user => emailUsers.push(JSON.parse(user.value).email));
 
 
-            await fetch('http://localhost:8080/sendMail', {
+            await fetch('http://localhost/sendMail', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ emails: emailUsers })
@@ -140,7 +136,7 @@ function loadPage() {
             worker.securitysign ? securitysigned = `<td class='signed'>חתום</td>` : securitysigned = `<td class='not-signed'>לא חתום</td>`
 
             workerstable.innerHTML += ` <tr>
-    <td><input class="checkUsers" type="checkbox" value='${JSON.stringify(worker)}'> </td> <td><a href="workerdetails.html?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.email}</td> <td>${worker.id}</td>${securitysigned}
+    <td><input class="checkUsers" type="checkbox" value='${JSON.stringify(worker)}'> </td> <td><a href="/panel/workerDetails?worker=${worker.id}&name=${worker.name}&department=${worker.department}">${worker.name}</a></td> <td>${worker.department}</td> <td>${worker.email}</td> <td>${worker.id}</td>${securitysigned}
 </tr>`
             count++;
         });
@@ -154,4 +150,3 @@ function loadPage() {
 
         }
     }
-}

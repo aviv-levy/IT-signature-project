@@ -12,27 +12,37 @@ for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
 
 
 //Login function send username and password to validate if true
-let login = () => {
+let login = async () => {
     let form = document.getElementById('my-form');
 
     let { username, password } = form.elements;
 
     const User = { username: username.value, password: password.value }
 
-    fetch('http://localhost:8080/login', {
+    await fetch('https://localhost/login', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(User)
-    }).then((response) => response.json())
-        .then((result) => {
-            setCookie('token', result.token, result.expires);
-            document.location.href = 'myworkers.html';
-        }).catch((error) => {
-            alert('Bad Login')
-        })
+    }).then((result) => {
+        //setCookie('token', result.token, result.expires);
+        if (result.status === 200)
+            document.location.href = '/panel';
+
+    }).catch((error) => {
+        alert(error.message)
+    })
 
 };
-
+function getTokenFromCookie(token) {
+    const cDecoded = decodeURIComponent(document.cookie);
+    const cArray = cDecoded.split("; ")
+    let result = null;
+    cArray.forEach(element => {
+        if (element.indexOf(token) === 0)
+            result = element.substring(token.length + 1)
+    })
+    return result;
+}
 
 function setCookie(key, value, expires) {
     document.cookie = `${key}=${value}; ${expires.toUTCString}; path =/`
