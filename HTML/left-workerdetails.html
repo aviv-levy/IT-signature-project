@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../CSS/bubbles.css">
     <link rel="stylesheet" href="../CSS/navbar.css">
     <link rel="stylesheet" href="../CSS/btn_remove_item.css">
-    <link rel="stylesheet" href="../css/modal.css">
     <title>Worker Details</title>
 </head>
 
@@ -54,34 +53,6 @@
             <li></li>
         </ul>
 
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="display2">
-
-                    <form action="">
-                        <h3>חתימת עובד</h3>
-                        <div class="flex-row">
-                            <div class="wrapper">
-                                <canvas id="signature-pad"></canvas>
-                            </div>
-                            <div class="clear-btn">
-                                <button class="btn-modal" type="button" id="clear"><span> נקה חתימה </span></button>
-                                <button class="btn-modal" id="save" type="button">חתימה</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <img id="saveSignature" alt="">
-                </div>
-            </div>
-
-        </div>
-
-        <!--End of Modal-->
     </div>
     <div class="loader loader-hidden"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"

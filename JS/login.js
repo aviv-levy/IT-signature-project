@@ -1,3 +1,5 @@
+import { URL } from "../Extras/serverurl.js";
+import { errorAlertMessage } from "../Extras/swalAlert.js";
 
 //Press Enter option to click login button
 for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
@@ -10,7 +12,9 @@ for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
     })
 }
 
-
+document.getElementById('loginbtn').addEventListener('click', () => {
+    login();
+})
 //Login function send username and password to validate if true
 let login = async () => {
     let form = document.getElementById('my-form');
@@ -19,7 +23,7 @@ let login = async () => {
 
     const User = { username: username.value, password: password.value }
 
-    await fetch('https://localhost/login', {
+    await fetch(URL + '/login', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(User)
@@ -27,6 +31,8 @@ let login = async () => {
         //setCookie('token', result.token, result.expires);
         if (result.status === 200)
             document.location.href = '/panel';
+        else if (result.status === 401)
+            errorAlertMessage('Oops...','Not Authorized')
 
     }).catch((error) => {
         alert(error.message)

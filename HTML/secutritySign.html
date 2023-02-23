@@ -109,6 +109,7 @@
                     class="focus-border mytext"></span><span class="mytext">מחלקה:</span>
                 <select name="department" id="department">
                     <option>בחר מחלקה</option>
+                    <option value="הנהלה">הנהלה</option>
                     <option value="מחשוב">מחשוב</option>
                     <option value="מתכנת">מתכנת</option>
                     <option value="QA">QA</option>
@@ -120,6 +121,7 @@
                     <option value="מנהל מוצר">מנהל מוצר</option>
                     <option value="מכירות">מכירות</option>
                     <option value="מסופונים">מסופונים</option>
+                    <option value="עובד חיצוני">עובד חיצוני</option>
                 </select>
             </div>
             <br>
@@ -146,7 +148,7 @@
         </form>
     </div>
     <div id="sign">
-        <button id="signbtn" onclick="signclick()">חתימה</button>
+        <button id="signbtn">חתימה</button>
     </div>
 
     <button id="pdfPrint" onclick="pdfPrint()">Print PDF</button>
@@ -158,7 +160,7 @@
         integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../JS/securitysign.js"></script>
+    <script type="module" src="../JS/securitysign.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"></script>
 </body>
 

@@ -1,4 +1,5 @@
-const URL = 'https://localhost'
+import { URL } from "../Extras/serverurl.js";
+
 let workerstable = document.getElementById('workerstable');
 let sum = document.getElementById('sum');
 let search = document.getElementById('search');

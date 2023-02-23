@@ -80,7 +80,7 @@ app.post('/sign', async (req, res) => {
       //Check if user exist if exists skip it, if not insert it
       if (userExistResult[0] === undefined) {
         let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + idworker + "','" + workername + "','" + department + "','" + email + "','" + 0 + "','0')";
-        await insertQuery(statement, con);
+        await insertUpdateQuery(statement, con);
       }
       else
         console.log('user exist');
@@ -100,7 +100,7 @@ app.post('/sign', async (req, res) => {
           break;
       }
       statement = "INSERT INTO items (idworker,date,itworker,items,describedItem,sign,returned) VALUES ('" + idworker + "','" + date + "','" + itworker + "','" + item + "','" + describedItem + "','" + dataURL + "','0')";
-      await insertQuery(statement, con);
+      await insertUpdateQuery(statement, con);
     })
     res.status(201).send('Items were added');
   } catch (err) {
@@ -148,27 +148,40 @@ app.post('/security-sign', async (req, res) => {
     let userExistResult = JSON.parse(await selectQuery(statement, con).catch((err) => { console.error(err) }));
     if (userExistResult[0] === undefined) {
       let statement = "INSERT INTO securitysigns (id,name,date,signature) VALUES ('" + id + "','" + name + "','" + date + "','" + pic + "') "
-      insertQuery(statement, con);
+      await insertUpdateQuery(statement, con);
     }
     else {
       let statement = "UPDATE securitysigns SET signature = '" + pic + "', date = '" + date + "' WHERE id = " + id + "";
-      await updateQuery(statement, con)
+      await insertUpdateQuery(statement, con)
     }
 
     let statement2 = "SELECT id from workers where id = '" + id + "'";
     let userExistResult2 = JSON.parse(await selectQuery(statement2, con).catch((err) => { console.error(err) }));
     //Check if user exist if exists skip it, if not insert it
     if (userExistResult2[0] === undefined) {
-      let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + ",0')";
-      insertQuery(statement, con);
+      let statement = "INSERT INTO workers (id,name,department,email,securitysign,retired) VALUES ('" + id + "','" + name + "','" + department + "','" + email + "','" + 1 + "','0')";
+      await insertUpdateQuery(statement, con);
     }
     else {
       let statement = "UPDATE workers SET securitysign = " + true + " WHERE id = " + id + "";
-      await updateQuery(statement, con)
+      await insertUpdateQuery(statement, con)
     }
 
     res.status(201).send('Inserted succesfully');
   } catch (err) {
+    res.status(500).send();
+  }
+})
+
+//Edit worker details
+app.put('/editDetails', async (req, res) => {
+  try {
+    let { idworker, workername, department, email } = req.body;
+    let statement = "UPDATE workers SET name = '" + workername + "', department = '" + department + "', email = '" + email + "' WHERE id = '" + idworker + "'";
+    await insertUpdateQuery(statement, con);
+    res.status(202).send();
+  } catch (err) {
+    console.log(err.message);
     res.status(500).send();
   }
 })
@@ -299,25 +312,14 @@ function selectQuery(statement, con) {
   return myresult;
 }
 
-async function insertQuery(statement, con) {
-  await new Promise((resolve, reject) => con.query(statement, (err, results) => {
+async function insertUpdateQuery(statement, con) {
+  return await new Promise((resolve, reject) => con.query(statement, (err, results) => {
     if (err) {
       reject(err)
     } else {
       resolve(results);
     }
   }));
-  // await con.query(statement, function (err, result) {
-  //   if (err) throw err;
-  //   console.log("1 record inserted");
-  // });
-};
-
-async function updateQuery(statement, con) {
-  await con.query(statement, function (err, result) {
-    if (err) throw err;
-    console.log("1 record updated");
-  });
 };
 
 async function deleteQuery(statement, con, comment, statement2 = 0) {
@@ -333,16 +335,16 @@ async function deleteQuery(statement, con, comment, statement2 = 0) {
 };
 
 
-app.use('/panel',panel);
-app.use('/login',login);
-app.use('/newWorker',newWorker);
-app.use('/securitySign',securitySign);
-app.use('/retiredWorkers',retiredWorkers);
+app.use('/panel', panel);
+app.use('/login', login);
+app.use('/newWorker', newWorker);
+app.use('/securitySign', securitySign);
+app.use('/retiredWorkers', retiredWorkers);
 
 const httpsServer = https.createServer({
-  key:fs.readFileSync(path.join(__dirname,'cert','key.pem')),
-  cert:fs.readFileSync(path.join(__dirname,'cert','cert.pem'))
-},app)
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
+}, app)
 
 
 httpsServer.listen(port, () => {

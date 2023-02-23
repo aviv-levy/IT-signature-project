@@ -1,4 +1,6 @@
-const URL = 'https://localhost';
+import { URL } from "../Extras/serverurl.js";
+import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
+
 var canvas = document.getElementById("signature-pad");
 
 
@@ -22,7 +24,9 @@ document.getElementById("clear").addEventListener('click', function () {
 })
 
 
-
+document.getElementById('signbtn').addEventListener('click',()=>{
+    signclick();
+})
 function signclick() {
     let dataURL = canvas.toDataURL("image/png");
 
@@ -44,21 +48,18 @@ async function insertUser(myWorker) {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)
-    }).then(() => {
+    }).then((result) => {
         clearInputs();
         document.querySelector('.loader').classList.add('loader-hidden');
-        Swal.fire(
-            'עבודה טובה!',
-            'חתימתך נרשמה',
-            'success'
-        )
+        if (result.status === 201)
+            successAlertMessage('עבודה טובה!', 'חתימתך נרשמה')
+
+        else if (result.status === 500)
+            errorAlertMessage('ERROR 500', ' ')
+
     }).catch((err) => {
         document.querySelector('.loader').classList.add('loader-hidden');
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!'
-        })
+        errorAlertMessage('Oops...', 'Something went wrong!\n' + err.message)
     })
 }
 
@@ -71,7 +72,7 @@ function clearInputs() {
 
 }
 
-function pdfPrint(){
+function pdfPrint() {
     console.log('pdff');
     const doc = new jsPDF();
     doc.save("test.pdf")
@@ -82,34 +83,34 @@ function pdfPrint(){
 function validation(worker, idworker, department, email, date) {
 
     if (worker.length < 2 || (!/^[א-ת\s]*$/.test(worker))) {
-        alert('שם עובד לא תקין');
+        errorAlertMessage('Oops...','שם עובד לא תקין');
         return false;
     }
 
     if (idworker.length < 3 || idworker.length > 4 || (!/^\d+$/.test(idworker))) {
-        alert('מספר עובד חייב להיות 3 או 4 ספרות');
+        errorAlertMessage('Oops...','מספר עובד חייב להיות 3 או 4 ספרות');
         return false;
     }
 
 
     if (department === 'בחר מחלקה') {
-        alert('מחלקה לא תקינה');
+        errorAlertMessage('Oops...','מחלקה לא תקינה');
         return false;
     }
 
     if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-        alert('מייל לא תקין');
+        errorAlertMessage('Oops...','מייל לא תקין');
         return false;
     }
 
     if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
-        alert('נא להזין תאריך חתימה');
+        errorAlertMessage('Oops...','נא להזין תאריך חתימה');
         return false;
     }
 
 
     if (signaturePad.isEmpty()) {
-        alert('נא לחתום על מהסמך');
+        errorAlertMessage('Oops...','נא לחתום על מהסמך');
         return false;
     }
 
