@@ -117,7 +117,7 @@ let editWorker = async () => {
 
     let { workerName, idworker, modalDepartment, email } = form.elements;
 
-    let workerobj = { workername: workerName.value, idworker: idworker.value, department: modalDepartment.value, email: email.value };
+    let workerobj = { workername: workerName.value, newIdworker: idworker.value, department: modalDepartment.value, email: email.value, currentIdworker: document.getElementById('idworker').getAttribute('data-originalID') };
 
     if (validation(workerName.value, idworker.value, email.value)) {
         document.getElementById("myModal").style.display = "none";
@@ -127,6 +127,7 @@ let editWorker = async () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(workerobj)
         }).then((result) => {
+            console.log(result);
             document.querySelector('.loader').classList.add('loader-hidden');
             if (result.status === 202) {
                 successAlertMessage('עבודה טובה!', 'הפרטים עודכנו בהצלחה')
@@ -134,6 +135,9 @@ let editWorker = async () => {
                     location.reload();
                 })
             }
+
+            else if(result.status === 409)
+                errorAlertMessage('User ID already exist','Try another ID')
 
             else if (result.status === 500)
                 errorAlertMessage('ERROR 500', ' ')
@@ -195,6 +199,7 @@ function filterWorkers(type = 0) {
     document.querySelectorAll('.edit-icon').forEach((icon, index) => {
         icon.addEventListener('click', () => {
             document.getElementById('idworker').value = myfilteredworkers[index].id
+            document.getElementById('idworker').setAttribute('data-originalID', document.getElementById('idworker').value)
             document.getElementById('workerName').value = myfilteredworkers[index].name
             document.getElementById('email').value = myfilteredworkers[index].email
             document.getElementById('modal-department').value = myfilteredworkers[index].department

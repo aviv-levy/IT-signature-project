@@ -176,13 +176,15 @@ app.post('/security-sign', async (req, res) => {
 //Edit worker details
 app.put('/editDetails', async (req, res) => {
   try {
-    let { idworker, workername, department, email } = req.body;
-    let statement = "UPDATE workers SET name = '" + workername + "', department = '" + department + "', email = '" + email + "' WHERE id = '" + idworker + "'";
+    let { newIdworker, workername, department, email, currentIdworker } = req.body;
+    let statement = "UPDATE workers SET id = '" + newIdworker + "', name = '" + workername + "', department = '" + department + "', email = '" + email + "' WHERE id = '" + currentIdworker + "'";
     await insertUpdateQuery(statement, con);
     res.status(202).send();
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send();
+    if (err.errno === 1062)
+      res.status(409).send()
+    else
+      res.status(500).send();
   }
 })
 
