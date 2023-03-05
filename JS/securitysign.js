@@ -1,4 +1,5 @@
 import { URL } from "../Extras/serverurl.js";
+import { Validation } from "../Extras/validation.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 
 var canvas = document.getElementById("signature-pad");
@@ -24,7 +25,7 @@ document.getElementById("clear").addEventListener('click', function () {
 })
 
 
-document.getElementById('signbtn').addEventListener('click',()=>{
+document.getElementById('signbtn').addEventListener('click', () => {
     signclick();
 })
 function signclick() {
@@ -35,7 +36,9 @@ function signclick() {
     let { name, idworker, department, email, date } = form.elements;
     //date.value.split("-").reverse().join("-")
     let workerobj = { name: name.value, id: idworker.value, department: department.value, email: email.value, date: date.value, pic: dataURL };
-    if (validation(name.value, idworker.value, department.value, email.value, date.value))
+    let validateobj = { id: idworker.value, workername: name.value, date: date.value, department: department.value, email: email.value, signature: signaturePad }
+    let validation = new Validation(validateobj);
+    if (validation.validateNewSecuritySign())
         insertUser(workerobj);
 }
 
@@ -76,43 +79,4 @@ function pdfPrint() {
     console.log('pdff');
     const doc = new jsPDF();
     doc.save("test.pdf")
-}
-
-
-//validate inputs and return true if inputs are corrctly inserted
-function validation(worker, idworker, department, email, date) {
-
-    if (worker.length < 2 || (!/^[א-ת\s]*$/.test(worker))) {
-        errorAlertMessage('Oops...','שם עובד לא תקין');
-        return false;
-    }
-
-    if (idworker.length < 3 || idworker.length > 4 || (!/^\d+$/.test(idworker))) {
-        errorAlertMessage('Oops...','מספר עובד חייב להיות 3 או 4 ספרות');
-        return false;
-    }
-
-
-    if (department === 'בחר מחלקה') {
-        errorAlertMessage('Oops...','מחלקה לא תקינה');
-        return false;
-    }
-
-    if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-        errorAlertMessage('Oops...','מייל לא תקין');
-        return false;
-    }
-
-    if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
-        errorAlertMessage('Oops...','נא להזין תאריך חתימה');
-        return false;
-    }
-
-
-    if (signaturePad.isEmpty()) {
-        errorAlertMessage('Oops...','נא לחתום על מהסמך');
-        return false;
-    }
-
-    return true;
 }

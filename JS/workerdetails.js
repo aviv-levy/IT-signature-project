@@ -1,4 +1,5 @@
 import { URL } from "../Extras/serverurl.js";
+import { Validation } from "../Extras/validation.js";
 import { displayModal } from "./modal.js";
 
 //get parmas of worker from url
@@ -139,7 +140,7 @@ async function requestItemsFromDatabase(idworker) {
                 document.querySelectorAll('.deleteBtn').forEach(btn => {
                     btn.addEventListener('click', async () => {
                         await fetch(URL + '/delete-items', {
-                            method: 'DELETE',
+                            method: 'PUT',
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ ids: btn.value, isMoreItems: false })
 
@@ -189,7 +190,7 @@ let deleteItems = async () => {
             deleteItems.push(item.value);
         })
         await fetch(URL + '/delete-items', {
-            method: 'DELETE',
+            method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ids: deleteItems })
         }).then(location.reload())
@@ -212,9 +213,12 @@ function saveSignature() {
     let phone = document.getElementById('phone').value;
     let other = document.getElementById('other').value;
 
-    let arrItems = [];
-    if (validation(date, itworker, items, computer, phone, other, arrItems)) {
-        arrItems = JSON.stringify(arrItems);
+    let validateobj = { date, itworker, items, signature: signaturePad, computer, phone, other }
+
+    let validation = new Validation(validateobj);
+
+    if (validation.validateNewItems()) {
+        let arrItems = JSON.stringify(validation.getArrItems());
         let workerobj = { idworker: ID, workername: NAME, date, department: DEPARTMENT, itworker, arrItems, computer, phone, other, dataURL, onlyitems: true };
         insertUser(workerobj);
     }
@@ -231,72 +235,5 @@ async function insertUser(myWorker) {
         body: JSON.stringify(myWorker)
     }).then(location.reload())
 }
-
-
-//validate inputs and return true if inputs are corrctly inserted
-function validation(date, itworker, items, computer, phone, other, arrItems) {
-
-    if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
-        alert('נא להזין תאריך חתימה');
-        return false;
-    }
-
-    if (itworker.length < 2 || (!/^[א-ת\s]*$/.test(itworker))) {
-        alert('מחתים לא תקין');
-        return false;
-    }
-
-    if (items[0] === undefined) {
-        alert('בחר את הציוד להחתמה');
-        return false;
-    }
-
-    let itemFlag = true;
-
-    if (computer.value === '')
-        computer.value = null;
-
-    if (phone.value === '')
-        phone.value = null;
-
-    if (other.value === '')
-        other.value = null;
-
-
-    items.forEach((item) => {
-        arrItems.push(item.value);
-        switch (item.value) {
-            case '3':
-                if (computer.length < 2) {
-                    alert('אזור מחשב לא תקין');
-                    itemFlag = false;
-                }
-                break;
-            case '4':
-                if (phone.length < 2) {
-                    alert('אזור פלאפון לא תקין');
-                    itemFlag = false;
-                }
-                break;
-            case '9':
-                if (other.length < 2) {
-                    alert('אחר לא תקין');
-                    itemFlag = false;
-                }
-                break;
-        }
-    })
-
-    if (!itemFlag)
-        return false;
-
-    if (signaturePad.isEmpty()) {
-        alert('נא לחתום על מהסמך');
-        return false;
-    }
-
-    return true;
-}
-
 
 displayModal('#add-items')

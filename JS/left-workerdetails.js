@@ -5,30 +5,9 @@ import { URL } from "../Extras/serverurl.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ID = urlParams.get('worker');
-var canvas = document.getElementById("signature-pad");
 let signedItems, returnedItems;
-var signaturePad;
 
 requestItemsFromDatabase(ID);
-
-//Signature Pad
-function resizeCanvas() {
-    var ratio = Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = 365;
-    canvas.height = 175;
-    canvas.getContext("2d").scale(ratio, ratio);
-}
-window.onresize = resizeCanvas;
-resizeCanvas();
-
-signaturePad = new SignaturePad(canvas, {
-    backgroundColor: 'rgba(0, 0, 0, 0.18)'
-});
-
-//Onclick clear signature pad
-document.getElementById("clear").addEventListener('click', function () {
-    signaturePad.clear();
-})
 
 //Get all items from database by worker id and shows it
 async function requestItemsFromDatabase(idworker) {
@@ -138,7 +117,7 @@ async function requestItemsFromDatabase(idworker) {
                 document.querySelectorAll('.deleteBtn').forEach(btn => {
                     btn.addEventListener('click', async () => {
                         await fetch(URL + '/delete-items', {
-                            method: 'DELETE',
+                            method: 'PUT',
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ ids: btn.value, isMoreItems: false })
 
@@ -247,7 +226,7 @@ async function requestItemsFromDatabase(idworker) {
                 document.querySelectorAll('.deleteBtn').forEach(btn => {
                     btn.addEventListener('click', async () => {
                         await fetch(URL + '/delete-items', {
-                            method: 'DELETE',
+                            method: 'PUT',
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ ids: btn.value, isMoreItems: false })
 
@@ -295,7 +274,7 @@ let deleteItems = async () => {
             deleteItems.push(item.value);
         })
         await fetch(URL + '/delete-items', {
-            method: 'DELETE',
+            method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ids: deleteItems })
         }).then(location.reload())

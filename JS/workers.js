@@ -55,7 +55,7 @@ let deleteSelected = async () => {
         allusers.forEach(user => deleteUsers.push(JSON.parse(user.value).id))
 
         await fetch(URL + '/delete-workers', {
-            method: 'DELETE',
+            method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ workers_ID: deleteUsers })
         }).then(location.reload())

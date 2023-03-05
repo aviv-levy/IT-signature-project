@@ -189,7 +189,7 @@ app.put('/editDetails', async (req, res) => {
 })
 
 //Delete items of user
-app.delete('/delete-items', async (req, res) => {
+app.put('/delete-items', async (req, res) => {
   try {
     let { ids } = req.body;
     console.log(typeof (ids), ids)
@@ -209,7 +209,7 @@ app.delete('/delete-items', async (req, res) => {
 })
 
 //Set workers to retired true
-app.delete('/delete-workers', async (req, res) => {
+app.put('/delete-workers', async (req, res) => {
   try {
     let { workers_ID } = req.body;
     let statement = "UPDATE workers SET retired = " + true + " WHERE";

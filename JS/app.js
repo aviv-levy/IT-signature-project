@@ -1,4 +1,5 @@
 import { URL } from "../Extras/serverurl.js";
+import { Validation } from "../Extras/validation.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 
 var canvas = document.getElementById("signature-pad");
@@ -40,10 +41,12 @@ function saveSignature() {
     let computer = document.getElementById('computer').value;
     let phone = document.getElementById('phone').value;
     let other = document.getElementById('other').value;
-
-    let arrItems = [];
-    if (validation(idworker, workername, date, department, itworker, email, items, computer, phone, other, arrItems)) {
-        arrItems = JSON.stringify(arrItems);
+    
+    let validateobj = { id: idworker, workername: workername, date, department, itworker, email, items, signature: signaturePad, computer, phone, other }
+      
+    let validation = new Validation(validateobj);
+    if (validation.validateNewWorkerItems()) {
+        let arrItems = JSON.stringify(validation.getArrItems());
         let workerobj = { idworker, workername, date, department, itworker, email, arrItems, computer, phone, other, dataURL, onlyitems: false };
         insertUser(workerobj);
     }
@@ -67,88 +70,6 @@ async function insertUser(myWorker) {
     })
 }
 
-//validate inputs and return true if inputs are corrctly inserted
-function validation(idworker, worker, date, department, itworker, email, items, computer, phone, other, arrItems) {
-
-    if (idworker.length < 3 || idworker.length > 4 || (!/^\d+$/.test(idworker))) {
-        errorAlertMessage('Oops...', 'מספר עובד חייב להיות 3 או 4 ספרות');
-        return false;
-    }
-    if (worker.length < 2 || (!/^[א-ת\s]*$/.test(worker))) {
-        errorAlertMessage('Oops...', 'שם עובד לא תקין');
-        return false;
-    }
-
-    if (date === '' || (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(date))) {
-        errorAlertMessage('Oops...', 'נא להזין תאריך חתימה');
-        return false;
-    }
-
-    if (department === 'בחר מחלקה') {
-        errorAlertMessage('Oops...', 'מחלקה לא תקינה');
-        return false;
-    }
-
-    if (itworker.length < 2 || (!/^[א-ת\s]*$/.test(itworker))) {
-        errorAlertMessage('Oops...', 'מחתים לא תקין');
-        return false;
-    }
-    if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-        errorAlertMessage('Oops...', 'מייל לא תקין');
-        return false;
-    }
-
-    if (items[0] === undefined) {
-        errorAlertMessage('Oops...', 'בחר את הציוד להחתמה');
-        return false;
-    }
-
-    let itemFlag = true;
-
-    if (computer.value === '')
-        computer.value = null;
-
-    if (phone.value === '')
-        phone.value = null;
-
-    if (other.value === '')
-        other.value = null;
-
-
-    items.forEach((item) => {
-        arrItems.push(item.value);
-        switch (item.value) {
-            case '3':
-                if (computer.length < 2) {
-                    errorAlertMessage('Oops...', 'אזור מחשב לא תקין');
-                    itemFlag = false;
-                }
-                break;
-            case '4':
-                if (phone.length < 2) {
-                    errorAlertMessage('Oops...', 'אזור פלאפון לא תקין');
-                    itemFlag = false;
-                }
-                break;
-            case '9':
-                if (other.length < 2) {
-                    errorAlertMessage('Oops...', 'אחר לא תקין');
-                    itemFlag = false;
-                }
-                break;
-        }
-    })
-
-    if (!itemFlag)
-        return false;
-
-    if (signaturePad.isEmpty()) {
-        errorAlertMessage('Oops...', 'נא לחתום על מהסמך');
-        return false;
-    }
-
-    return true;
-}
 
 function clearInputs() {
     document.querySelectorAll('.myInput').forEach(element => {
