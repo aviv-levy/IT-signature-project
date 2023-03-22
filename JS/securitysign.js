@@ -74,9 +74,3 @@ function clearInputs() {
     signaturePad.clear()
 
 }
-
-function pdfPrint() {
-    console.log('pdff');
-    const doc = new jsPDF();
-    doc.save("test.pdf")
-}

@@ -24,7 +24,7 @@ function verifyToken(req, res, next) {
             return res.status(401).send("You are not authorized to access this resource.");
         }
 
-        //req.body.id = payload.id;
+        req.permission = payload.permission;
         next();
     });
 

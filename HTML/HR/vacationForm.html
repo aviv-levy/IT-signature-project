@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/secretForm.css">
+    <title>Document</title>
+</head>
+
+<body dir="rtl">
+    <div id="root">
+        <div class="header">
+            <div class="details">
+                <span class="textSize">נייטיב דטה מערכות (1995) בע"מ</span>
+                <br>
+                <span class="textSize">החורטים 11 חולון</span>
+                <br>
+                <span class="textSize">03-6506300 5885* mail@comax.co.il</span>
+                <br>
+                <span class="textSize">www.comax.co.il </span>
+            </div>
+            <div class="comaximg">
+                <img id="comaximg" src="../../securitysigncomax.png" alt="comax image">
+            </div>
+        </div>
+        <h1>נוהל חופשה והיעדרויות</h1>
+
+        <hr>
+
+        <ol>
+            <li>
+                <p>באחריות העובד לבדוק את מכסת ימי החופשה המגיעים לו.</p>
+            </li>
+            <li>
+                <p>עובד יורשה לקחת חופשה ולהיות ביתרת חופש שלילית לאחר קבלת אישור מההנהלה בלבד.</p>
+            </li>
+            <li>
+                <p>ימי חופשה שליליים יקוזזו משכר העובד.</p>
+            </li>
+            <li>
+                <p>בקשת יציאה לחופשה תעשה מול המנהל הישיר, שבועיים לפני המועד המבוקש.</p>
+            </li>
+            <li>
+                <p>יש להשתדל לסיים משימות דחופות לפני היציאה לחופשה.</p>
+            </li>
+        </ol>
+        <br><br><br><br>
+        <span class="textSize" style="font-weight: 600;">מאשר שקראתי והבנתי</span>
+        <br><br>
+
+        <div id="signp">
+            <span class="textSize">חתימה:</span>
+            <div class="flex-row">
+                <div class="wrapper">
+                    <canvas id="signature-pad"></canvas>
+                </div>
+                <div class="clear-btn">
+                    <button type="button" id="clear"><span class="textSize"> נקה חתימה </span></button>
+                </div>
+            </div>
+
+        </div>
+        <div id="sign">
+            <button id="signbtn">חתימה</button>
+        </div>
+    </div>
+
+    <div class="loader loader-hidden"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
+    integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="../../JS/HR/vacationFrom.js"></script>
+</body>
+
+</html>

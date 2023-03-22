@@ -29,10 +29,13 @@ let login = async () => {
         body: JSON.stringify(User)
     }).then((result) => {
         //setCookie('token', result.token, result.expires);
-        if (result.status === 200)
-            document.location.href = '/panel';
-        else if (result.status === 401)
-            errorAlertMessage('Oops...','Not Authorized')
+        if (result.status === 200) {
+            result.json().then(((data) => {
+                document.location.href = `/${data.page}`;
+            }));
+        }
+        if (result.status === 401)
+            errorAlertMessage('Oops...', 'Not Authorized')
 
     }).catch((error) => {
         alert(error.message)

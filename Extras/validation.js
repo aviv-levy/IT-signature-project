@@ -47,9 +47,25 @@ export class Validation {
         return true
     }
 
+    validateHRSecret(){
+        let validations = [this.signatureValidate(),this.dateValidate(),this.hrIDValidate(),this.nameValidate()];
+        for (let i = 0; i < validations.length; i++) {
+            if (!validations[i])
+                return false;
+        }
+        return true
+    }
+
     idValidate() {
         if (this.id.length < 3 || this.id.length > 4 || (!/^\d+$/.test(this.id))) {
             errorAlertMessage('Oops...', 'מספר עובד חייב להיות 3 או 4 ספרות');
+            return false;
+        }
+        return true;
+    }
+    hrIDValidate() {
+        if (this.id.length !== 9 || (!/^\d+$/.test(this.id))) {
+            errorAlertMessage('Oops...', 'מספר ת.ז לא תקין');
             return false;
         }
         return true;
