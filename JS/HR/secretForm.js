@@ -66,22 +66,22 @@ let insertWorker = async (worker) => {
     })
 }
 
-document.getElementById('test').addEventListener('click', () => send())
-let send = async () => {
+// document.getElementById('test').addEventListener('click', () => send())
+// let send = async () => {
 
 
-    // fetch('https://localhost/createPDF', {
-    //     method: 'GET'
-    // })
-    //     .then(res => res.blob())
-    //     .then(data => {
-    //         var a = document.createElement("a");
-    //         a.href = window.URL.createObjectURL(data);
-    //         a.download = "FILENAME";
-    //         a.click();
+//     // fetch('https://localhost/createPDF', {
+//     //     method: 'GET'
+//     // })
+//     //     .then(res => res.blob())
+//     //     .then(data => {
+//     //         var a = document.createElement("a");
+//     //         a.href = window.URL.createObjectURL(data);
+//     //         a.download = "FILENAME";
+//     //         a.click();
 
-    //     });
+//     //     });
 
-    location.href = 'https://localhost/createPDF';
+//     location.href = 'https://localhost/createPDF';
 
-}
+// }

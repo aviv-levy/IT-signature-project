@@ -41,9 +41,8 @@ function filterWorkers() {
     myfilteredworkers.forEach(worker => {
         let securitysigned = '';
         worker.securitysign ? securitysigned = `<td class='signed'>חתום</td>` : securitysigned = `<td class='not-signed'>לא חתום</td>`
-
         workerstable.innerHTML += ` <tr>
-    <td></td> <td>${worker.name}</a></td> <td>${worker.id}</td> <td><a href='https://localhost/createPDF/${worker.id}'><i class="fa-solid fa-file-pdf fa-xl"></a></td> <td><i class="fa-solid fa-file-pdf fa-xl"></i></td>
+    <td></td> <td>${worker.name}</a></td> <td>${worker.id}</td> <td><a href='https://localhost/createPDF/${worker.id}'><i class="fa-solid fa-file-pdf fa-xl"></a></td> <td><a href='https://localhost/createPDF_Vacation/${worker.id}'><i class="fa-solid fa-file-pdf fa-xl"></i></a></td>
 </tr>`
         count++;
     });
@@ -57,3 +56,7 @@ function filterWorkers() {
 
     }
 }
+
+document.getElementById('addWorker').addEventListener('click', ()=>{
+    location.href= '/HR/secretForm'
+})
