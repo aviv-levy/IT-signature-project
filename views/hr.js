@@ -5,6 +5,17 @@ const Database = new sql();
 Router.get('/', (req, res) => {
     res.sendFile('/Users/avivl/Desktop/IT-Signature/IT-signature-project/HTML/HR/hrPanel.html')
 })
+
+Router.get('/getWorkers', async (req, res) => {
+    try {
+        let statement = "SELECT * from HR_Secret_Vacation";
+        res.status(200).json(await Database.selectQuery(statement).catch((err) => { console.error(err) }))
+    } catch (err) {
+        res.status(500).send();
+        console.log(err.message);
+    }
+})
+
 Router.get('/secretForm', (req, res) => {
     res.sendFile('/Users/avivl/Desktop/IT-Signature/IT-signature-project/HTML/HR/secretForm.html')
 })
@@ -19,7 +30,7 @@ Router.post('/secretForm/sign', async (req, res) => {
     } catch (err) {
         if (err.errno === 1062)
             res.status(409).send()
-        else{
+        else {
             console.log(err.message);
             res.status(500).send();
         }

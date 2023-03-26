@@ -43,11 +43,11 @@ app.post('/login', (req, res) => {
         if (username === process.env.ADMIN && password === process.env.PASS) {
             //const token = jwt.sign(req.body, process.env.SECRET_TOKEN);
             const token = jwt.sign({ id: username, permission: 1 }, process.env.SECRET_TOKEN, { expiresIn: '30m' });
-            res.cookie('token', token).send(JSON.stringify({page:'panel'}));
+            res.cookie('token', token).send(JSON.stringify({ page: 'panel' }));
         }
         else if (username === process.env.HR && password === process.env.HRPASS) {
             const token = jwt.sign({ id: username, permission: 2 }, process.env.SECRET_TOKEN, { expiresIn: '30m' });
-            res.cookie('token', token).send(JSON.stringify({page:'HR'}));
+            res.cookie('token', token).send(JSON.stringify({ page: 'HR' }));
         }
         else
             res.status(401).send();
@@ -213,10 +213,10 @@ app.put('/delete-workers', async (req, res) => {
 
 })
 
-app.get('/createPDF', async (req, res) => {
+app.get('/createPDF/:id', async (req, res) => {
     try {
-
-        let statement = 'Select * from HR_Secret_Vacation WHERE id = 315789546'
+        const ID = req.params.id;
+        let statement = `Select * from HR_Secret_Vacation WHERE id = ${ID}`
         const results = JSON.parse(await Database.selectQuery(statement))[0];
 
         const url = `file://C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/HTML/HR/PDF-Templates/secretForm.html`
