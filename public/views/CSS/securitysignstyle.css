@@ -1,0 +1,79 @@
+@media (max-width: 576px) {
+    .my-text {
+        font-size: 14px;
+    }
+
+    .headers {
+        font-size: 18px;
+    }
+
+    .body-text {
+        font-size: 12px;
+    }
+
+    #native-head {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 1300px) {
+    .my-text {
+        font-size: 16px;
+    }
+
+    .headers {
+        font-size: 22px;
+    }
+
+    .body-text {
+        font-size: 14px;
+    }
+
+    #native-head {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1301px) {
+    .my-text {
+        font-size: 22px;
+    }
+
+    .headers {
+        font-size: 24px;
+    }
+
+    .body-text {
+        font-size: 16px;
+    }
+
+    #native-head {
+        font-size: 20px;
+    }
+}
+
+
+.myinput {
+    border: 0;
+    border-bottom: 1px solid #555;
+    background: transparent;
+    padding: 8px 0 5px 0;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+.myinput:focus {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #4caf50;
+    transition: 0.4s;
+}
+
+#signature-pad{
+    border: solid;
+}
+
+#comaximg{
+    content:url('./securitysigncomax.png');
+}
