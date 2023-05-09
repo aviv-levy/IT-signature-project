@@ -39,8 +39,12 @@ form {
 
 h1 {
   text-align: center;
+  color: #fff;
 }
 
+h3{
+  color: #fff;
+}
 
 input {
   background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);

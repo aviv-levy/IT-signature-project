@@ -1,5 +1,5 @@
 require('dotenv').config();
-const port = 80;
+const port = 443;
 const https = require('https')
 const sql = require('./database')
 const Database = new sql();
@@ -20,20 +20,38 @@ app.use(bodyParser.urlencoded({ limit: '25mb' }));
 
 app.use(cors());
 
+//Block html directory
+app.all('/html/*', function (req, res, next) {
+    res.status(403).send({
+        message: 'Access Forbidden'
+    });
+});
+
+
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(__dirname+'/views'));
+app.use(express.static(__dirname + '/views'));
 
 const panel = require('./views/panel')
 const login = require('./views/login')
 const newWorker = require('./views/newWorker')
 const securitySign = require('./views/securitySign')
 const retiredWorkers = require('./views/retiredWorkers')
-const HR = require('./views/hr')
+const HR = require('./views/hr');
+const verifyToken = require('./verifyToken');
 
 //Email sender config from mrelay
 const transporter = nodemailer.createTransport({
     host: 'mrelay.comax.co.il',
     port: 25
+})
+
+//Reirect
+app.get('/', (req, res) => {
+    try {
+        res.redirect('/panel')
+    } catch {
+        res.status(500).send();
+    }
 })
 
 //user login to panel
@@ -345,7 +363,7 @@ app.post('/sendMail', (req, res) => {
                 from: "IT@comax.co.il",
                 to: email,
                 subject: "הודעה חדשה מהמחשוב",
-                text: "שלום רב,\n\n עליך לחתום על טופס אבטחת מידע בקישור הבא:\n\n http://it-signatures.native.local/HTML/secutritySign.html\n\n במידה והסתבכתם בחתימה יש לפנות למחשוב למייל it@comax.co.il\n\nבתודה,\nמחלקת המחשוב"
+                text: "שלום רב,\n\n כחלק מתהליך שיפור לאבטחת מידע שלחנו טופס אבטחת מידע בקישור הבא:\n\n https://signature.native-data.co.il/securitySign\n\n עליכם לקרוא ולפעול לפי מדיניות החברה.\n\n לאחר קריאת הטופס יש לחתום בתחתית העמוד שהבנתם כל מה שרשום בטופס.\n\n במידה והסתבכתם יש לפנות למחשוב למייל it@comax.co.il\n\nבתודה,\nמחלקת המחשוב"
             }
             transporter.sendMail(message, function (err, info) {
                 if (err) {
@@ -368,15 +386,17 @@ app.use('/login', login);
 app.use('/newWorker', newWorker);
 app.use('/securitySign', securitySign);
 app.use('/retiredWorkers', retiredWorkers);
-app.use('/HR', HR);
+app.use('/HR', verifyToken, HR);
 
-// const httpsServer = https.createServer({
-//     key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
-//     cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
-// }, app)
+const httpsServer = https.createServer({
+    key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
+}, app)
 
 
-app.listen(port, () => {
+app.listen(80, () => { })
+
+httpsServer.listen(port, () => {
     console.log('Server is running ...');
 })
 

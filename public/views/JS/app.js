@@ -16,7 +16,7 @@ window.onresize = resizeCanvas;
 resizeCanvas();
 
 signaturePad = new SignaturePad(canvas, {
-    backgroundColor: 'rgba(0, 0, 0, 0.18)'
+  backgroundColor: 'rgb(192, 192, 192)'
 });
 
 //Onclick clear signature pad
@@ -75,7 +75,6 @@ function clearInputs() {
     document.querySelectorAll('.myInput').forEach(element => {
         element.value = '';
     });
-    //אני צריך להוסיף לצק בוקס
     document.querySelectorAll('.myCheck').forEach(element => {
         element.checked = false;
     });

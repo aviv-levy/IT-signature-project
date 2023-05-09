@@ -23,7 +23,7 @@ let login = async () => {
 
     const User = { username: username.value, password: password.value }
 
-    await fetch(URL + '/login', {
+    await fetch('/login', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(User)
