@@ -29,7 +29,7 @@ app.all('/html/*', function (req, res, next) {
 
 
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/'));
 
 const panel = require('./views/panel')
 const login = require('./views/login')
@@ -237,7 +237,7 @@ app.get('/createPDF/:id', async (req, res) => {
         let statement = `Select * from HR_Secret_Vacation WHERE id = ${ID}`
         const results = JSON.parse(await Database.selectQuery(statement))[0];
 
-        const url = `file://C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/HTML/HR/PDF-Templates/secretForm.html`
+        const url = `file://C:/Project/IT-signature-project/HTML/HR/PDF-Templates/secretForm.html`
 
         const browser = await puppeteer.launch({
             headless: true
@@ -279,7 +279,7 @@ app.get('/createPDF_Vacation/:id', async (req, res) => {
         let statement = `Select * from HR_Secret_Vacation WHERE id = ${ID}`
         const results = JSON.parse(await Database.selectQuery(statement))[0];
 
-        const url = `file://C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/HTML/HR/PDF-Templates/vacationForm.html`
+        const url = `file://C:/Project/IT-signature-project/HTML/HR/PDF-Templates/vacationForm.html`
 
         const browser = await puppeteer.launch({
             headless: true
@@ -381,11 +381,11 @@ app.post('/sendMail', (req, res) => {
 })
 
 
-app.use('/panel', panel);
+app.use('/panel',verifyToken, panel);
 app.use('/login', login);
-app.use('/newWorker', newWorker);
+app.use('/newWorker',verifyToken, newWorker);
 app.use('/securitySign', securitySign);
-app.use('/retiredWorkers', retiredWorkers);
+app.use('/retiredWorkers',verifyToken, retiredWorkers);
 app.use('/HR', verifyToken, HR);
 
 const httpsServer = https.createServer({

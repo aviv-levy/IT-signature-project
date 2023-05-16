@@ -1,5 +1,4 @@
 
-import { URL } from "../Extras/serverurl.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 import { displayModal } from "./modal.js"
 
@@ -11,7 +10,7 @@ let myresult, myfilteredworkers;
 //#####
 //client request for all workers
 //#####
-fetch(URL + '/workers', {
+fetch('/workers', {
     method: 'GET',
     headers: { "Content-Type": "application/json" }
 })
@@ -54,7 +53,7 @@ let deleteSelected = async () => {
 
         allusers.forEach(user => deleteUsers.push(JSON.parse(user.value).id))
 
-        await fetch(URL + '/delete-workers', {
+        await fetch('/delete-workers', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ workers_ID: deleteUsers })
@@ -76,7 +75,7 @@ let sendMail = async () => {
         checkedusers.forEach(user => emailUsers.push(JSON.parse(user.value).email));
 
 
-        await fetch(URL + '/sendMail', {
+        await fetch('/sendMail', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ emails: emailUsers })
@@ -122,7 +121,7 @@ let editWorker = async () => {
     if (validation(workerName.value, idworker.value, email.value)) {
         document.getElementById("myModal").style.display = "none";
         document.querySelector('.loader').classList.remove('loader-hidden');
-        await fetch(URL + '/editDetails', {
+        await fetch('/editDetails', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(workerobj)

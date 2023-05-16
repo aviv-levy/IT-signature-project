@@ -1,5 +1,3 @@
-import { URL } from "../../Extras/serverurl.js";
-
 let workerstable = document.getElementById('workerstable');
 let sum = document.getElementById('sum');
 let search = document.getElementById('search');
@@ -7,7 +5,7 @@ let myresult, myfilteredworkers;
 //#####
 //client request for all workers
 //#####
-fetch(URL + '/hr/getWorkers', {
+fetch('/hr/getWorkers', {
     method: 'GET',
     headers: { "Content-Type": "application/json" }
 })

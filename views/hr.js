@@ -2,10 +2,12 @@ const Router = require("express").Router();
 const sql = require('../database');
 const Database = new sql();
 
+// https://signature.native-data.co.il/hr
 Router.get('/', (req, res) => {
-    res.sendFile('C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/public/HTML/HR/hrPanel.html')
+    res.sendFile('/Project/IT-signature-project/HTML/HR/hrPanel.html')
 })
 
+// https://signature.native-data.co.il/hr/getWorkers
 Router.get('/getWorkers', async (req, res) => {
     try {
         let statement = "SELECT * from HR_Secret_Vacation";
@@ -16,10 +18,12 @@ Router.get('/getWorkers', async (req, res) => {
     }
 })
 
+// https://signature.native-data.co.il/hr/secretForm
 Router.get('/secretForm', (req, res) => {
-    res.sendFile('C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/public/HTML/HR/secretForm.html')
+    res.sendFile('/Project/IT-signature-project/HTML/HR/secretForm.html')
 })
 
+// https://signature.native-data.co.il/hr/getWorkers/secretForm/sign
 Router.post('/secretForm/sign', async (req, res) => {
     try {
         let { id, workername, date, signature } = req.body;
@@ -37,10 +41,12 @@ Router.post('/secretForm/sign', async (req, res) => {
     }
 })
 
+// https://signature.native-data.co.il/hr/getWorkers/vacationForm
 Router.get('/vacationForm', (req, res) => {
-    res.sendFile('C:/Users/avivl/Desktop/IT-Signature/IT-signature-project/public/HTML/HR/vacationForm.html')
+    res.sendFile('/Project/IT-signature-project/HTML/HR/vacationForm.html')
 })
 
+// https://signature.native-data.co.il/hr/getWorkers/vacationForm/sign
 Router.put('/vacationForm/sign', async (req, res) => {
     try {
         let { id, signature } = req.body;

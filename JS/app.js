@@ -1,4 +1,3 @@
-import { URL } from "../Extras/serverurl.js";
 import { Validation } from "../Extras/validation.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 
@@ -56,7 +55,7 @@ function saveSignature() {
 //connect to database and insert a user
 async function insertUser(myWorker) {
     document.querySelector('.loader').classList.remove('loader-hidden');
-    await fetch(URL + '/sign', {
+    await fetch('/sign', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)

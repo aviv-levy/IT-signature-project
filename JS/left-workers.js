@@ -1,4 +1,3 @@
-import { URL } from "../Extras/serverurl.js";
 
 let workerstable = document.getElementById('workerstable');
 let sum = document.getElementById('sum');
@@ -8,7 +7,7 @@ let myresult, myfilteredworkers;
 //#####
 //client request for all workers
 //#####
-fetch(URL + '/left-workers', {
+fetch('/left-workers', {
     method: 'GET',
     headers: { "Content-Type": "application/json" }
 })

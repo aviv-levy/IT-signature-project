@@ -1,4 +1,3 @@
-import { URL } from "../Extras/serverurl.js";
 import { errorAlertMessage } from "../Extras/swalAlert.js";
 
 //Press Enter option to click login button
