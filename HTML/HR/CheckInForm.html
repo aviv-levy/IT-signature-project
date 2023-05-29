@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../CSS/securitysignstyle.css">
+    <title>Document</title>
+</head>
+
+<body dir="rtl">
+
+    <div class="container-fluid text-responsive p-3">
+        <div class="row">
+            <div class="col-md-8">
+                <span class="my-text">נייטיב דטה מערכות (1995) בע"מ</span>
+                <br>
+                <span class="my-text">מצדה 7 בני ברק</span>
+                <br>
+                <span class="my-text">www.comax.co.il </span>
+                <br>
+            </div>
+            <div class="col-md-4">
+                <img id="comaximg" src="../../securitysigncomax.png" class="img-fluid rounded float-start"
+                    alt="comax image">
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <h2 class="text text-center text-primary-emphasis">טופס טיולים נכנס</h2>
+
+    <hr class="text-primary-emphasis mx-5">
+
+    <div class="container-fluid body-text mx-5">
+
+        <form>
+            <div class="form-group my-4">
+                <span class="mytext">תאריך: <input type="date" id="date" name="date" class="myinput"><span
+                        class="focus-border mytext"></span></span>
+            </div>
+            <div class="d-flex">
+                <div class="form-group">
+                    <span class="mytext">שם עובד: <input type="text" id="workerName" name="workerName"
+                            class="myinput"><span class="focus-border mytext"></span></span>
+                </div>
+                <div class="form-group">
+                    <span class="mytext me-5">מחלקה/חברה: <input type="text" id="workerName" name="workerName"
+                            class="myinput"><span class="focus-border mytext"></span></span>
+                </div>
+            </div>
+        </form>
+
+        <p class="fw-bold mt-5">
+            עובד/ת יקר/ה,
+            <br><br>
+            במטרה להבטיח תהליך כניסה מסודר לחברת נייטיב דטה מערכות, אבקשך לגשת לגורמים הבאים:
+            <br><br>
+            מחלקת משאבי אנוש:
+            <br><br>
+            <span class="text-danger"> אי עמידה בנהלים אלו עלולה להביא לנקיטת צעדים מצד חברת חברת נייטיב דטה מערכות
+                (1995) בע"מ. </span>
+        </p>
+
+    </div>
+
+    <div class="loader loader-hidden"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js"
+        integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="../JS/securitysign.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"></script>
+</body>
+
+</html>

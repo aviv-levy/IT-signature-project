@@ -55,7 +55,7 @@ function saveSignature() {
 //connect to database and insert a user
 async function insertUser(myWorker) {
     document.querySelector('.loader').classList.remove('loader-hidden');
-    await fetch('/sign', {
+    await fetch('/newWorker/sign', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)

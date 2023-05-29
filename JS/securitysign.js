@@ -47,7 +47,7 @@ function signclick() {
 
 async function insertUser(myWorker) {
     document.querySelector('.loader').classList.remove('loader-hidden');
-    await fetch('/security-sign', {
+    await fetch('/securitySign/security-sign', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)

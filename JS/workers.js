@@ -10,7 +10,7 @@ let myresult, myfilteredworkers;
 //#####
 //client request for all workers
 //#####
-fetch('/workers', {
+fetch('/panel/workers', {
     method: 'GET',
     headers: { "Content-Type": "application/json" }
 })
@@ -53,7 +53,7 @@ let deleteSelected = async () => {
 
         allusers.forEach(user => deleteUsers.push(JSON.parse(user.value).id))
 
-        await fetch('/delete-workers', {
+        await fetch('/panel/delete-workers', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ workers_ID: deleteUsers })
@@ -75,13 +75,37 @@ let sendMail = async () => {
         checkedusers.forEach(user => emailUsers.push(JSON.parse(user.value).email));
 
 
-        await fetch('/sendMail', {
+        await fetch('/panel/sendMail', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ emails: emailUsers })
         }).then(location.reload())
     }
 }
+
+//#####
+//Export workers to csv function for selected checkboxes
+//#####
+document.getElementById('exportcsv').addEventListener('click', () => {
+    export2CSV();
+})
+
+let export2CSV = async () => {
+    let workers = '';
+    let checkedusers = document.querySelectorAll('.checkUsers:checked');
+    if (checkedusers.length !== 0) {
+
+        checkedusers.forEach((user) => {
+            const ParsedUser = JSON.parse(user.value);
+            workers === '' ? workers = ParsedUser.id : workers += ',' + ParsedUser.id
+        });
+
+
+        location.href = `/panel/Export2csv/${workers}`;
+
+    }
+}
+
 
 //#####
 //Check all checkboxes
@@ -121,7 +145,7 @@ let editWorker = async () => {
     if (validation(workerName.value, idworker.value, email.value)) {
         document.getElementById("myModal").style.display = "none";
         document.querySelector('.loader').classList.remove('loader-hidden');
-        await fetch('/editDetails', {
+        await fetch('/panel/editDetails', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(workerobj)

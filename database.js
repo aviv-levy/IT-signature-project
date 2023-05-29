@@ -13,15 +13,14 @@ class Database {
     database: process.env.DATABASE
   });
 
-  selectQuery(statement) {
-    let myresult = new Promise((resolve) => {
+  async selectQuery(statement) {
+    return await new Promise((resolve) => {
       this.con.query(statement, function (err, result, fields) {
-        if (err) reject(err);
+        if (err) console.log(err);
         // console.log(result);
         resolve(JSON.stringify(result));
       });
     });
-    return myresult;
   }
 
   async insertUpdateQuery(statement) {

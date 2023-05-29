@@ -7,7 +7,7 @@ let myresult, myfilteredworkers;
 //#####
 //client request for all workers
 //#####
-fetch('/left-workers', {
+fetch('/retiredWorkers/left-workers', {
     method: 'GET',
     headers: { "Content-Type": "application/json" }
 })

@@ -35,6 +35,8 @@ let login = async () => {
         }
         if (result.status === 401)
             errorAlertMessage('Oops...', 'Not Authorized')
+        else if (result.status === 500)
+            errorAlertMessage('Oops...', 'Error 500')
 
     }).catch((error) => {
         alert(error.message)
