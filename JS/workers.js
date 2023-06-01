@@ -1,5 +1,5 @@
 
-import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
+import { successAlertMessage, errorAlertMessage, deleteAlertMessage } from "../Extras/swalAlert.js";
 import { displayModal } from "./modal.js"
 
 let workerstable = document.getElementById('workerstable');
@@ -101,11 +101,26 @@ let export2CSV = async () => {
         });
 
 
-        location.href = `/panel/Export2csv/${workers}`;
+        location.href = `/panel/Export2csv/${workers}/SignaturesReport`;
 
     }
 }
 
+//#####
+//Reset the security signatures of all the workers
+//#####
+document.getElementById('resetBtn').addEventListener('click', () => {
+    resetSecurity();
+})
+
+let resetSecurity = async () => {
+
+    deleteAlertMessage('Reset', 'Signs have been Reset', async () => {
+        await fetch('/panel/resetSigns', {
+            method: 'PUT',
+        })
+    });
+}
 
 //#####
 //Check all checkboxes

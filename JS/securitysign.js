@@ -2,7 +2,9 @@ import { Validation } from "../Extras/validation.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 
 var canvas = document.getElementById("signature-pad");
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
+console.log(document.getElementById('date').value);
 
 //Signature Pad
 function resizeCanvas() {

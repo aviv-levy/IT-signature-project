@@ -1,6 +1,8 @@
 import { Validation } from "../Extras/validation.js";
 import { successAlertMessage, errorAlertMessage } from "../Extras/swalAlert.js";
 
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
 var canvas = document.getElementById("signature-pad");
 var signaturePad;
 

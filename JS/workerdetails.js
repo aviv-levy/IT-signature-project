@@ -228,7 +228,7 @@ function saveSignature() {
 async function insertUser(myWorker) {
     console.log(JSON.stringify(myWorker));
 
-    await fetch('/sign', {
+    await fetch('/newWorker/sign', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(myWorker)

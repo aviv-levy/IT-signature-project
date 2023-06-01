@@ -95,9 +95,9 @@ Router.post('/sendMail', (req, res) => {
 
 
 // Export selected workers to csv file
-// https://signature.native-data.co.il/panel/Export2csv
+// https://signature.native-data.co.il/panel/Export2csv/SignaturesReport
 
-Router.get('/Export2csv/:ids', async (req, res) => {
+Router.get('/Export2csv/:ids/SignaturesReport', async (req, res) => {
     try {
         const IDs = req.params.ids;
 
@@ -127,6 +127,20 @@ Router.get('/Export2csv/:ids', async (req, res) => {
 // https://signature.native-data.co.il/panel/workerDetails
 Router.get('/workerDetails', (req, res) => {
     res.sendFile('/Project/IT-signature-project/HTML/workerdetails.html')
+})
+
+// Reset all securitySign of the workers
+// https://signature.native-data.co.il/panel/workerDetails
+Router.put('/resetSigns', async (req, res) => {
+    try {
+
+        const statement = "UPDATE workers SET securitysign = 0 WHERE id > 0"
+        await Database.insertUpdateQuery(statement);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
 })
 
 
