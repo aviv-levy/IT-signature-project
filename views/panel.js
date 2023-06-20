@@ -38,8 +38,14 @@ Router.put('/editDetails', async (req, res) => {
         let { newIdworker, workername, department, email, currentIdworker } = req.body;
         let statement = "UPDATE workers SET id = '" + newIdworker + "', name = '" + workername + "', department = '" + department + "', email = '" + email + "' WHERE id = '" + currentIdworker + "'";
         await Database.insertUpdateQuery(statement);
+        statement = `UPDATE items SET `
+        statement = `UPDATE items SET idworker = ${newIdworker} WHERE idworker = ${currentIdworker}`;
+        await Database.insertUpdateQuery(statement);
+        statement = `UPDATE securitysigns SET id = ${newIdworker} WHERE id = ${currentIdworker}`;
+        await Database.insertUpdateQuery(statement);
         res.status(202).send();
     } catch (err) {
+        console.log(err);
         if (err.errno === 1062)
             res.status(409).send()
         else
@@ -52,8 +58,8 @@ Router.put('/editDetails', async (req, res) => {
 // https://signature.native-data.co.il/panel/delete-workers
 Router.put('/delete-workers', async (req, res) => {
     try {
-        let { workers_ID } = req.body;
-        let statement = "UPDATE workers SET retired = " + true + " WHERE";
+        let { workers_ID, date } = req.body;
+        let statement = "UPDATE workers SET retired = " + true + ", retiredDate = '" + date + "' WHERE";
         workers_ID.forEach((userid, index) => {
             index !== workers_ID.length - 1 ? statement += ` id = ${userid} ||` : statement += ` id = ${userid}`;
         });

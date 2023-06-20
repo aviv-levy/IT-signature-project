@@ -52,11 +52,11 @@ let deleteSelected = async () => {
     if (allusers.length !== 0) {
 
         allusers.forEach(user => deleteUsers.push(JSON.parse(user.value).id))
-
+        const date = new Date().toISOString().split('T')[0];
         await fetch('/panel/delete-workers', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ workers_ID: deleteUsers })
+            body: JSON.stringify({ workers_ID: deleteUsers, date:date })
         }).then(location.reload())
     }
 }

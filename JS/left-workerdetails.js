@@ -28,6 +28,8 @@ async function requestItemsFromDatabase(idworker) {
             }
             else
                 securitydisp.innerHTML = `<h2>העובד לא חתם על אבטחת מידע</h2>`;
+            if (result.retiredDate != null)
+                securitydisp.innerHTML += `<h3>תאריך עזיבה: ${result.retiredDate.split("-").reverse().join("-")}</h3>`
 
             signedItems = result.items.filter((item) => {
                 if (item.returned === 0)

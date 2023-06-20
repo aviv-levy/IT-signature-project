@@ -50,8 +50,8 @@ app.post('/items', async (req, res) => {
         let { idworker } = req.body;
         let security = JSON.parse(await Database.selectQuery("SELECT date,signature FROM securitysigns where id =" + idworker + ""))
         let items = JSON.parse(await Database.selectQuery("SELECT * FROM items where idworker =" + idworker + ""))
-
-        res.status(201).send(JSON.stringify({ security: security[0], items: items }));
+        let retiredDate = JSON.parse(await Database.selectQuery("SELECT retiredDate FROM workers where id =" + idworker + ""))
+        res.status(201).send(JSON.stringify({ security: security[0], items: items, retiredDate: retiredDate[0].retiredDate }));
     } catch (err) {
         res.status(500).send();
     }
